@@ -9,8 +9,8 @@ DOMAIN-SUFFIX,ropes.apple.com // PCC ROPES 隐私推理传输网关
 DOMAIN,mask-api.icloud.com // PCC / 专用代理匿名令牌签发
 DOMAIN,mask.icloud.com // PCC OHTTP 盲化网关
 DOMAIN,mask-h2.icloud.com // PCC OHTTP HTTP/2 回退网关
-DOMAIN,ss-cleanup-proxy-prod.us-east-1m.app.apple.com // Apple 生成式云端推理节点
-DOMAIN-SUFFIX,app.apple.com // Apple 生成式云端推理服务接口
+DOMAIN,ss-cleanup-proxy-prod.us-east-1m.app.apple.com // 相册高质量消除云端推理专用节点
+DOMAIN-SUFFIX,app.apple.com // 相册高质量消除与生成式云端服务接口
 DOMAIN-SUFFIX,apple-relay.apple.com // Apple 智能 PCC 隐私云计算中继（请勿拦截 UDP 443 / QUIC）
 DOMAIN-SUFFIX,apple-relay.cloudflare.com // PCC Cloudflare OHTTP 中继
 DOMAIN-SUFFIX,apple-relay.fastly-edge.com // PCC Fastly OHTTP 中继

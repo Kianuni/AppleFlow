@@ -12,6 +12,8 @@ dns:
     - "+.smoot.apple.com"
     - "+.push.apple.com"
     - "gspe1-ssl.ls.apple.com"
+    - "+.issuer.apple.com"
+    - "+.ropes.apple.com"
     - "mask-api.icloud.com"
     - "mask.icloud.com"
     - "mask-h2.icloud.com"

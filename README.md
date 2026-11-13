@@ -1,7 +1,7 @@
 <h1 align="center"> AppleFlow</h1>
 
 <p align="center">
-  <strong>零 MitM 的 Apple 智能、PCC 隐私云计算与中文 Siri 极简分流方案 & 本地配置体检台</strong><br>
+  <strong>零 MitM 的 Apple 智能、PCC 相册「高质量消除」与中文 Siri 极简分流方案 & 本地配置体检台</strong><br>
   适用于外版（港/美/日/台）及已解锁国行 iOS / iPadOS / macOS 26–27 设备
 </p>
 
@@ -19,11 +19,11 @@
 
 1. **定位与 Siri 接口启用强证书固定**：自 iOS 27.2 起苹果对 `gspe1-ssl.ls.apple.com` 等核心接口启用了强证书固定（Certificate Pinning），若继续对该域名或 `*.smoot.apple.com` 开启 MitM 解密重写，会导致区域准入断连、Spotlight 搜索报错。
 2. **中文 Siri 被代理或 Fake-IP 误伤**：只要 `guzzoni.apple.com` 或 `*.siri.apple.com` 落入海外节点（或被 VIF DNS 解析为 `198.18.x.x` Fake-IP），中文普通话 Siri 就会立即报错「我碰到了一点问题。请再试一次。」。
-3. **`Apple_All` 抢行与 `QUIC-BLOCK` 误拦 PCC**：通用 `AI.list` 往往漏掉了 `mask*.icloud.com` 等匿名令牌接口，导致它们被下方的 `Apple_All -> DIRECT` 截胡直连；而前置屏蔽 UDP 443（`QUIC`）又会阻断或拖慢 `apple-relay.*` 的 OHTTP 隐私云计算握手。
+3. **`Apple_All` 抢行与 `QUIC-BLOCK` 导致相册「高质量消除」报 `Code=32033`**：市面通用 `AI.list` 往往仅包含 5 条 `apple-relay.*`，漏掉了盲签名签发与云端推理网关（`*.issuer.apple.com`、`ropes.apple.com`、`mask*.icloud.com`、`*.app.apple.com`），导致其被下方的 `Apple_All -> DIRECT` 截胡直连、泄漏大陆 IP 秒拒；同时节点未放行 UDP 443（触发 `QUIC-BLOCK`）也会中断 OHTTP 隐私计算握手。
 
 **AppleFlow** 完全摒弃 HTTPS 解密（**100% 零 MitM、零脚本、零额外耗电**），用最小化的精确域名集同时保障：
 - **中文普通话 Siri 秒回不报错** + **普通话「询问来电原因」来电筛选完整保留**；
-- **Apple Intelligence 书写工具、PCC 隐私云计算、Siri ChatGPT 扩展与视觉智能稳定可用**；
+- **Apple Intelligence 书写工具、相册「高质量消除」与扩图重构、PCC 隐私云计算、Siri ChatGPT 扩展与视觉智能稳定可用**；
 - **国区 iCloud 同步与 APNs 推送不受任何拖累**。
 
 ---
@@ -50,7 +50,7 @@
 | 作用与推荐出口 | Surge / Loon `RULE-SET` | Mihomo / Clash `rule-provider` | Sing-box `v2 JSON` | Quantumult X |
 | :--- | :--- | :--- | :--- | :--- |
 | **1. 中文 Siri 强制直连 (`DIRECT`)** | [`rules/surge/Siri-Direct.list`](rules/surge/Siri-Direct.list) | [`rules/clash/Siri-Direct.yaml`](rules/clash/Siri-Direct.yaml) | [`rules/sing-box/Siri-Direct.json`](rules/sing-box/Siri-Direct.json) | [`rules/quantumultx/Siri-Direct.list`](rules/quantumultx/Siri-Direct.list) |
-| **2. Apple PCC 隐私云计算 (`美区`)** | [`rules/surge/Apple-PCC.list`](rules/surge/Apple-PCC.list) | [`rules/clash/Apple-PCC.yaml`](rules/clash/Apple-PCC.yaml) | [`rules/sing-box/Apple-PCC.json`](rules/sing-box/Apple-PCC.json) | [`rules/quantumultx/Apple-PCC.list`](rules/quantumultx/Apple-PCC.list) |
+| **2. Apple PCC 与高质量消除 (`美区`)** | [`rules/surge/Apple-PCC.list`](rules/surge/Apple-PCC.list) | [`rules/clash/Apple-PCC.yaml`](rules/clash/Apple-PCC.yaml) | [`rules/sing-box/Apple-PCC.json`](rules/sing-box/Apple-PCC.json) | [`rules/quantumultx/Apple-PCC.list`](rules/quantumultx/Apple-PCC.list) |
 | **3. ChatGPT 与视觉识图 (`美区`)** | [`rules/surge/Apple-AI-Ext.list`](rules/surge/Apple-AI-Ext.list) | [`rules/clash/Apple-AI-Ext.yaml`](rules/clash/Apple-AI-Ext.yaml) | [`rules/sing-box/Apple-AI-Ext.json`](rules/sing-box/Apple-AI-Ext.json) | [`rules/quantumultx/Apple-AI-Ext.list`](rules/quantumultx/Apple-AI-Ext.list) |
 | **4. 纯净 APNs 推送 (`DIRECT`，可选)** | [`rules/surge/Apple-APNs-Direct.list`](rules/surge/Apple-APNs-Direct.list) | [`rules/clash/Apple-APNs-Direct.yaml`](rules/clash/Apple-APNs-Direct.yaml) | — | — |
 | **合集：美区 AI 合并总集 (2+3 合并)** | [`rules/surge/Apple-AI-All.list`](rules/surge/Apple-AI-All.list) | [`rules/clash/Apple-AI-All.yaml`](rules/clash/Apple-AI-All.yaml) | [`rules/sing-box/Apple-AI-All.json`](rules/sing-box/Apple-AI-All.json) | [`rules/quantumultx/AppleFlow-All.list`](rules/quantumultx/AppleFlow-All.list) *(含直连全集)* |
@@ -73,10 +73,12 @@
 
 ---
 
-## 常见问题说明（与分流规则无关的系统级限制）
+## 相册「高质量消除」报错排查清单
 
-- **关于云端图像消除间歇报错（`Code=1009 Rate limited`）**：苹果 PCC 云端推理接口设有严格的单用户频率配额。短时间连续调用触发 `1009` 限流后换节点无效（进程缓存可通过关机重启清除，服务端配额需停手等待半天至 24 小时自动恢复），并非分流规则故障。
-- **关于国行设备在 `iOS 27.3 beta 1` 下的限制**：`27.3 beta 1` 在相机与照片部分生成式接口新增了本地硬件机型码非缓存校验（`Eligibility returned no CN region policy on a CH region code device`），发网前即在本地拦截，无法通过网络分流绕过。
+1. **检查规则是否完整并已刷新外部资源（修复 `PrivateCloudComputeError Code=32033`）**：确保已引用本项目的 `AppleFlow` 模块或 `Apple-PCC` / `Apple-AI-All` 规则集（完整包含 `issuer.apple.com`、`ropes.apple.com`、`mask*.icloud.com`、`app.apple.com`、`apple-relay.*`、`gspe1-ssl.ls.apple.com` 且排在 `Apple_All` 之前），并在代理客户端点击一次 **「更新外部资源 (Update External Resources)」**。
+2. **确认美区节点已开启 UDP / QUIC 转发**：PCC OHTTP 强依赖 UDP 443 (QUIC)，请确认节点服务端防火墙已放行 UDP 端口，请求日志中无 `QUIC-BLOCK`（`↓ 0 B`）。
+3. **改完规则后重启一次手机，避免连续狂点重试**：此前若因漏分流触发过 `Code=32033` 或 `Code=1009` 退避，`privatecloudcomputed` 会在内存缓存冷却状态——**关机重启一次手机**即可清空本地缓存；若因短时间高频使用触发苹果服务端频率配额，停手等待数小时自动恢复即可。
+4. **关于国行设备在 `iOS 27.3 beta 1` 下的限制**：`27.3 beta 1` 新增了本地硬件机型码非缓存校验（`Eligibility returned no CN region policy on a CH region code device`），发网前即在本地拦截，需保持在 `iOS 27.0 – 27.2.1` 或等待苹果后续测试版调整。
 
 ---
 

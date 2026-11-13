@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AppleFlow — Apple 智能与中文 Siri 极简分流与配置体检</title>
-  <meta name="description" content="专为 iOS / iPadOS / macOS 26–27 打造的零 MitM 分流方案：中文 Siri 与普通话来电筛选真实 IP 直连 + Apple Intelligence PCC / ChatGPT / 视觉智能分流模块、纯规则集、本地脱敏体检与出口探针。" />
+  <title>AppleFlow — Apple 智能、相册高质量消除与中文 Siri 极简分流与配置体检</title>
+  <meta name="description" content="专为 iOS / iPadOS / macOS 26–27 打造的零 MitM 分流方案：中文 Siri 与普通话来电筛选真实 IP 直连 + Apple Intelligence PCC / 相册高质量消除 / ChatGPT / 视觉智能分流模块、纯规则集、本地脱敏体检与出口探针。" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
@@ -25,7 +25,7 @@
       <div class="hero-badge" data-i18n="heroBadge">零 MitM · 零证书报错 · iOS / macOS 26–27 实机验证</div>
       <h1 data-i18n="heroTitle">Apple 智能时代的极简分流与排雷工具</h1>
       <p data-i18n="heroSub">
-        无需 HTTPS 解密与重写脚本。一套轻量分流同时保障「中文普通话 Siri 不报错 + 普通话来电筛选保留 + Apple Intelligence PCC 隐私云计算 + ChatGPT 视觉智能」。
+        无需 HTTPS 解密与重写脚本。一套轻量分流同时保障「中文普通话 Siri 不报错 + 普通话来电筛选保留 + Apple Intelligence PCC 与相册高质量消除 + ChatGPT 视觉智能」。
       </p>
 
       <div class="law-grid">
@@ -34,8 +34,8 @@
           <span data-i18n="law1Desc">guzzoni 与 *.siri.apple.com 走代理或 Fake-IP 必报错，必须 DIRECT + always-real-ip。</span>
         </div>
         <div class="law-card">
-          <strong data-i18n="law2Title">02 · PCC 隐私计算置顶美区</strong>
-          <span data-i18n="law2Desc">apple-relay.*、mask*.icloud.com、gspe1-ssl 置于 Apple_All 之前，保留 UDP 443。</span>
+          <strong data-i18n="law2Title">02 · PCC 与高质量消除置顶美区</strong>
+          <span data-i18n="law2Desc">issuer / ropes / mask / app.apple.com 与 apple-relay.* 置于 Apple_All 之前，节点开启 UDP 443。</span>
         </div>
         <div class="law-card">
           <strong data-i18n="law3Title">03 · 免定位 / Siri MitM 解密</strong>
@@ -181,11 +181,11 @@
           </div>
 
           <div class="symptom-card">
-            <h3>云端图像消除间歇报错（与分流规则无关）</h3>
+            <h3>相册「高质量消除」提示消除出错</h3>
             <ul>
-              <li><strong>苹果 PCC <code>Code=1009</code> 服务端限流</strong>：连续点击极易触发苹果单用户频率配额（非节点或规则故障）。</li>
-              <li><strong>本地缓存冷却</strong>：<code>privatecloudcomputed</code> 进程缓存了 <code>retry-after</code>，可尝试关机重启。</li>
-              <li><strong>服务端配额冷却</strong>：若重启后仍报错，换节点无效，需停手等待半天至 24 小时由苹果服务端自动解封。</li>
+              <li><strong>根因 1（漏分流报 <code>Code=32033</code>）</strong>：通用规则集漏了 <code>issuer.apple.com</code>、<code>ropes.apple.com</code>、<code>mask*.icloud.com</code> 或 <code>app.apple.com</code>，掉入 <code>Apple_All</code> 直连被拒。换用 AppleFlow 规则并点「更新外部资源」。</li>
+              <li><strong>根因 2（节点 UDP 不通 / <code>QUIC-BLOCK</code>）</strong>：PCC 依赖 UDP 443 (QUIC)，请确认美区节点服务端已放行 UDP 端口且未拦截 QUIC。</li>
+              <li><strong>清缓存与配额冷却</strong>：改好规则后<strong>重启一次手机</strong>清掉本地 <code>32033/1009</code> 退避缓存；若触发苹果服务端频率配额则停手等待数小时恢复。</li>
             </ul>
           </div>
 

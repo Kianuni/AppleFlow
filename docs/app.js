@@ -148,11 +148,11 @@ const I18N = {
   zh: {
     heroBadge: "零 MitM · 零证书报错 · iOS / macOS 26–27 实机验证",
     heroTitle: "Apple 智能时代的极简分流与排雷工具",
-    heroSub: "无需 HTTPS 解密与重写脚本。一套轻量分流同时保障「中文普通话 Siri 不报错 + 普通话来电筛选保留 + Apple Intelligence PCC 隐私云计算 + ChatGPT 视觉智能」。",
+    heroSub: "无需 HTTPS 解密与重写脚本。一套轻量分流同时保障「中文普通话 Siri 不报错 + 普通话来电筛选保留 + Apple Intelligence PCC 与相册高质量消除 + ChatGPT 视觉智能」。",
     law1Title: "01 · 中文 Siri 真实 IP 直连",
     law1Desc: "guzzoni 与 *.siri.apple.com 走代理或 Fake-IP 必报错，必须 DIRECT + always-real-ip。",
-    law2Title: "02 · PCC 隐私计算置顶美区",
-    law2Desc: "apple-relay.*、mask*.icloud.com、gspe1-ssl 置于 Apple_All 之前，保留 UDP 443。",
+    law2Title: "02 · PCC 与高质量消除置顶美区",
+    law2Desc: "issuer / ropes / mask / app.apple.com 与 apple-relay.* 置于 Apple_All 之前，节点开启 UDP 443。",
     law3Title: "03 · 免定位 / Siri MitM 解密",
     law3Desc: "iOS 27.2+ 已启用强证书固定，避免对 gspe1-ssl 或 smoot 启用 MitM 解密导致断连。",
     law4Title: "04 · 地区设「台湾」+ 外区商店",
@@ -195,11 +195,11 @@ const I18N = {
   en: {
     heroBadge: "Zero-MitM · No Cert Errors · Verified on iOS / macOS 26–27",
     heroTitle: "Minimalist Routing & Config Doctor for Apple Intelligence",
-    heroSub: "Zero HTTPS decryption or rewrite scripts needed. Keep Mandarin Siri & Call Screening on real-IP DIRECT while routing Apple PCC & ChatGPT cleanly through US proxies.",
+    heroSub: "Zero HTTPS decryption or rewrite scripts needed. Keep Mandarin Siri & Call Screening on real-IP DIRECT while routing Apple PCC, Photos High-Quality Clean Up & ChatGPT cleanly through US proxies.",
     law1Title: "01 · Mandarin Siri -> DIRECT",
     law1Desc: "Never proxy or Fake-IP guzzoni.apple.com & *.siri.apple.com.",
-    law2Title: "02 · PCC Above Apple_All",
-    law2Desc: "Place apple-relay.*, mask*.icloud.com & gspe1-ssl above catch-all Apple rules; keep UDP 443.",
+    law2Title: "02 · PCC & Clean Up Above Apple_All",
+    law2Desc: "Place issuer / ropes / mask / app.apple.com & apple-relay.* above catch-all Apple rules; keep UDP 443.",
     law3Title: "03 · No Location/Siri MitM",
     law3Desc: "iOS 27.2+ enforces certificate pinning; avoid MitM decryption on gspe1-ssl or smoot.",
     law4Title: "04 · Region Taiwan + Non-CN Store",
@@ -248,8 +248,8 @@ const CLIENT_MODULES = {
       nameEn: "AppleFlow Full Module (Recommended)",
       badgeZh: "支持模块参数改策略名",
       badgeEn: "Supports Module Argument",
-      descZh: "包含中文 Siri 真实 IP 直连护栏 + Apple PCC 隐私云计算 + Siri ChatGPT / 视觉智能识图。安装后可在 Surge 模块参数 Policy 中填入你的美区策略组名（默认 PROXY）。",
-      descEn: "Includes Mandarin Siri real-IP direct guardrail + Apple PCC + ChatGPT / Visual Intelligence. Customize Policy argument directly inside Surge.",
+      descZh: "包含中文 Siri 真实 IP 直连护栏 + Apple PCC 隐私云计算与相册高质量消除 + Siri ChatGPT / 视觉智能识图。安装后可在 Surge 模块参数 Policy 中填入你的美区策略组名（默认 PROXY）。",
+      descEn: "Includes Mandarin Siri real-IP direct guardrail + Apple PCC & Photos High-Quality Clean Up + ChatGPT / Visual Intelligence. Customize Policy argument directly inside Surge.",
       file: "AppleFlow-Full.sgmodule",
       uriPrefix: "surge:///install-module?url=",
       installZh: "一键安装到 Surge",
@@ -961,7 +961,8 @@ async function runLiveProbes() {
     const timer = setTimeout(() => ctrl.abort(), 5000);
     const t0 = performance.now();
     try {
-      await fetch(`${t.url}/?_af=${Date.now()}`, {
+      const sep = t.url.includes("?") ? "&" : "?";
+      await fetch(`${t.url}${sep}_af=${Date.now()}`, {
         mode: "no-cors",
         cache: "no-store",
         signal: ctrl.signal,

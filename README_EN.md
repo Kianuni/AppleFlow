@@ -1,7 +1,7 @@
 <h1 align="center"> AppleFlow</h1>
 
 <p align="center">
-  <strong>Zero-MitM Routing Engine & Local Config Doctor for Apple Intelligence, PCC & Mandarin Siri</strong><br>
+  <strong>Zero-MitM Routing Engine & Local Config Doctor for Apple Intelligence, Photos High-Quality Clean Up & Mandarin Siri</strong><br>
   Built for iOS / iPadOS / macOS 26–27
 </p>
 
@@ -18,7 +18,7 @@
 **AppleFlow** provides a lightweight, zero-MitM routing rule architecture verified on iOS / macOS 26–27:
 
 1. **Mandarin Siri & Call Screening Stay on Real-IP `DIRECT`**: Keeps `guzzoni.apple.com`, `*.siri.apple.com`, and `*.smoot.apple.com` out of overseas proxies and Fake-IP (`198.18.0.0/15`), preventing Siri connection errors.
-2. **Apple PCC & OHTTP Relays Above Catch-All Apple Rules**: Routes `gspe1-ssl.ls.apple.com`, `apple-relay.*`, and `mask*.icloud.com` through your low-latency US proxy without blocking UDP 443 (`QUIC`).
+2. **Complete Apple PCC & Photos High-Quality Clean Up Above Catch-All Apple Rules**: Routes `gspe1-ssl.ls.apple.com`, `issuer.apple.com`, `ropes.apple.com`, `mask*.icloud.com`, `app.apple.com`, and `apple-relay.*` through your low-latency US proxy with UDP 443 (`QUIC`) enabled — preventing `PrivateCloudComputeError Code=32033` caused by `Apple_All` direct leaks or `QUIC-BLOCK`.
 3. **Zero MitM**: Certificate pinning in iOS 27.2+ breaks MitM on `gspe1-ssl.ls.apple.com`. AppleFlow uses zero scripts and zero MitM certificates.
 4. **Local Auto-Redacting Config Doctor & Exit Region Probe**: Audit your Surge `.conf` or Mihomo / Clash `.yaml` strictly in local browser memory (with automatic proxy credential & subscription URL redaction), and inspect real connected exit regions across split-routing lanes in the [Web Studio](https://kianuni.github.io/AppleFlow/).
 
