@@ -318,8 +318,10 @@ export function auditConfig(rawText) {
   const findings = [];
   const knownDirectAliases = new Set(["DIRECT", "direct"]);
 
-  // 1. Collect direct proxy aliases (e.g. `🌐 全球直连 = direct`) and proxy groups
+  // 1. Collect direct proxy aliases, proxy node UDP/QUIC flags, and proxy groups
   const proxyGroups = new Map();
+  const proxyGroupMembers = new Map();
+  const surgeProxies = [];
   let currentSection = "";
 
   for (let i = 0; i < lines.length; i++) {
@@ -337,9 +339,23 @@ export function auditConfig(rawText) {
       const eqIdx = stripped.indexOf("=");
       if (eqIdx > 0) {
         const name = cleanPolicyToken(stripped.slice(0, eqIdx));
-        const rhs = stripped.slice(eqIdx + 1).trim().toLowerCase();
-        if (rhs === "direct" || rhs.startsWith("direct,")) {
+        const rhsRaw = stripInlineComment(stripped.slice(eqIdx + 1));
+        const rhsLower = rhsRaw.toLowerCase();
+        if (rhsLower === "direct" || rhsLower.startsWith("direct,")) {
           knownDirectAliases.add(name);
+        } else if (!/^reject(-tinygif|-drop|-no-drop)?\b/i.test(rhsLower)) {
+          const parts = rhsRaw.split(",").map((s) => s.trim());
+          const proto = (parts[0] || "").toLowerCase();
+          const flags = new Map();
+          for (const p of parts.slice(1)) {
+            const kvIdx = p.indexOf("=");
+            if (kvIdx > 0) {
+              const k = p.slice(0, kvIdx).trim().toLowerCase();
+              const v = p.slice(kvIdx + 1).trim().replace(/^["']|["']$/g, "").toLowerCase();
+              flags.set(k, v);
+            }
+          }
+          surgeProxies.push({ lineNo: i + 1, name, proto, flags });
         }
       }
     }
@@ -349,8 +365,10 @@ export function auditConfig(rawText) {
         const name = cleanPolicyToken(stripped.slice(0, eqIdx));
         const rhs = stripped.slice(eqIdx + 1).trim();
         proxyGroups.set(name, rhs);
+        const parts = stripInlineComment(rhs).split(",").map((s) => cleanPolicyToken(s));
+        const members = parts.slice(1).filter((t) => t && !t.includes("="));
+        proxyGroupMembers.set(name, members);
         // If a select group's FIRST option is a direct alias (e.g. `🍎 苹果服务 = select, "🌐 全球直连", ...`), note its default
-        const parts = rhs.split(",").map((s) => cleanPolicyToken(s));
         if (parts[0]?.toLowerCase() === "select" && parts[1] && isLikelyDirectTarget(parts[1], knownDirectAliases)) {
           proxyGroups.set(`${name}::__defaultDirect`, true);
         }
@@ -358,16 +376,34 @@ export function auditConfig(rawText) {
     }
   }
 
-  // 2. Parse General / DNS / MITM / Script / Rules
+  // 2. Parse General / DNS / MITM / Script / Rules / YAML Proxies
   currentSection = "";
   let skipProxyLine = "";
   let realIpLine = "";
   let fakeIpEnabled = false;
   const fakeIpFilters = [];
   let inFakeIpFilter = false;
+  let yamlTopKey = "";
+  const yamlProxies = [];
+  let currentYamlProxy = null;
   const mitmLines = [];
   const scriptLines = [];
   const parsedRules = [];
+
+  function parseYamlProxyFields(snippet, target) {
+    const nameM = snippet.match(/(?:^|[,{\s])name\s*:\s*("[^"]*"|'[^']*'|[^,}\r\n#]+)/i);
+    if (nameM && !target.name) {
+      target.name = nameM[1].trim().replace(/^["']|["']$/g, "").trim();
+    }
+    const typeM = snippet.match(/(?:^|[,{\s])type\s*:\s*("[^"]*"|'[^']*'|[^,}\r\n#]+)/i);
+    if (typeM && !target.type) {
+      target.type = typeM[1].trim().replace(/^["']|["']$/g, "").trim().toLowerCase();
+    }
+    const udpM = snippet.match(/(?:^|[,{\s])udp\s*:\s*(true|false)\b/i);
+    if (udpM) {
+      target.udp = udpM[1].toLowerCase() === "true";
+    }
+  }
 
   for (let i = 0; i < lines.length; i++) {
     const lineNo = i + 1;
@@ -401,6 +437,28 @@ export function auditConfig(rawText) {
       }
     } else {
       // Clash / Mihomo / Stash YAML
+      const topMatch = rawLine.match(/^([a-zA-Z0-9_-]+)\s*:/);
+      if (topMatch) {
+        yamlTopKey = topMatch[1].toLowerCase();
+        currentYamlProxy = null;
+      }
+      if (yamlTopKey === "proxies" && !topMatch) {
+        if (stripped.startsWith("-")) {
+          const rest = stripped.replace(/^-\s*/, "");
+          if (rest.startsWith("{")) {
+            const entry = { lineNo, name: "", type: "", udp: undefined };
+            parseYamlProxyFields(rest, entry);
+            if (entry.name || entry.type) yamlProxies.push(entry);
+            currentYamlProxy = null;
+          } else {
+            currentYamlProxy = { lineNo, name: "", type: "", udp: undefined };
+            parseYamlProxyFields(rest, currentYamlProxy);
+            yamlProxies.push(currentYamlProxy);
+          }
+        } else if (currentYamlProxy) {
+          parseYamlProxyFields(stripped, currentYamlProxy);
+        }
+      }
       if (/^enhanced-mode\s*:\s*fake-ip/i.test(stripped)) {
         fakeIpEnabled = true;
       }
@@ -627,6 +685,10 @@ export function auditConfig(rawText) {
         line: pccRule.lineNo,
         titleZh: `Apple PCC 分流规则位置正确（第 ${pccRule.lineNo} 行 -> ${pccRule.policy}，位于苹果兜底规则之前）`,
         titleEn: `Apple PCC routing verified (line ${pccRule.lineNo} -> ${pccRule.policy})`,
+        detailZh:
+          "该分流规则已同时覆盖 TCP 与 UDP (QUIC 443)。若相册高质量消除仍报出错或请求列表出现 QUIC-BLOCK，请确认自建 VPS 防火墙安全组已放行对应端口的 UDP 协议。",
+        detailEn:
+          "Domain rules automatically cover both TCP and UDP (QUIC 443). If Photos High-Quality Clean Up still fails or shows QUIC-BLOCK, verify your VPS firewall allows UDP on the proxy port.",
       });
 
       if (/(🇭🇰|香港|\bHK\b|Hong\s*Kong)/i.test(pccRule.policy) && !/(🇺🇸|美国|\bUS\b)/.test(pccRule.policy)) {
@@ -681,6 +743,151 @@ export function auditConfig(rawText) {
     });
   }
 
+  // --- CHECK 4B: Proxy Node-Level UDP / QUIC Capability ---
+  const usNameRe = /(🇺🇸|美国|\bUS\b|\bUSA\b|洛杉矶|圣何塞|西雅图|硅谷|达拉斯|芝加哥|纽约|波特兰|Los\s*Angeles|San\s*Jose|Seattle|Silicon)/i;
+  if (!isYaml && surgeProxies.length > 0) {
+    const byName = new Map(surgeProxies.map((p) => [p.name, p]));
+    const resolved = [];
+    if (pccRule?.policy) {
+      const queue = [{ name: pccRule.policy, depth: 0 }];
+      const seen = new Set();
+      while (queue.length > 0) {
+        const { name, depth } = queue.shift();
+        if (seen.has(name) || depth > 4) continue;
+        seen.add(name);
+        if (byName.has(name)) resolved.push(byName.get(name));
+        const members = proxyGroupMembers.get(name);
+        if (members) {
+          for (const m of members) queue.push({ name: m, depth: depth + 1 });
+        }
+      }
+    }
+    let candidates = resolved;
+    if (candidates.length === 0) {
+      const usNodes = surgeProxies.filter((p) => usNameRe.test(p.name));
+      candidates = usNodes.length > 0 ? usNodes : surgeProxies;
+    }
+
+    const udpOff = candidates.find((p) => p.flags.get("udp-relay") === "false" || p.flags.get("udp-relay") === "0");
+    if (udpOff) {
+      findings.push({
+        id: "surge-node-udp-disabled",
+        severity: "error",
+        line: udpOff.lineNo,
+        titleZh: `节点 UDP 已关闭：第 ${udpOff.lineNo} 行「${udpOff.name}」配置了 udp-relay=false`,
+        titleEn: `Node UDP Disabled: Line ${udpOff.lineNo} "${udpOff.name}" sets udp-relay=false`,
+        detailZh:
+          "Apple PCC 隐私计算与相册「高质量消除」依赖 UDP 443 (QUIC) 隧道。节点关闭 UDP 会导致请求触发 QUIC-BLOCK 并报 PrivateCloudComputeError Code=32033。请改为 udp-relay=true（或移除该参数），并确认 VPS 防火墙已放行端口 UDP。",
+        detailEn:
+          "Apple PCC & Photos High-Quality Clean Up require UDP 443 (QUIC). Remove udp-relay=false (or set udp-relay=true) and ensure the server firewall opens UDP.",
+      });
+    }
+
+    const quicOff = candidates.find((p) => p.flags.get("block-quic") === "on" || p.flags.get("quic-block") === "true");
+    if (quicOff) {
+      findings.push({
+        id: "surge-node-block-quic",
+        severity: "error",
+        line: quicOff.lineNo,
+        titleZh: `节点强制阻断 QUIC：第 ${quicOff.lineNo} 行「${quicOff.name}」配置了 block-quic=on`,
+        titleEn: `Node Blocks QUIC: Line ${quicOff.lineNo} "${quicOff.name}" sets block-quic=on`,
+        detailZh:
+          "Surge 节点开启 block-quic=on 会直接丢弃发往 apple-relay.* 的 UDP 443 握手（最近请求显示 QUIC-BLOCK），导致相册高质量消除与 PCC 报错。请移除 block-quic=on 或改为 block-quic=off。",
+        detailEn:
+          "Setting block-quic=on drops UDP 443 QUIC handshakes to apple-relay.*, breaking PCC & High-Quality Clean Up. Remove block-quic=on.",
+      });
+    }
+
+    if (candidates.length > 0 && candidates.every((p) => p.proto === "http" || p.proto === "https")) {
+      const firstHttp = candidates[0];
+      findings.push({
+        id: "surge-node-http-no-udp",
+        severity: "error",
+        line: firstHttp.lineNo,
+        titleZh: `代理协议不支持 UDP：第 ${firstHttp.lineNo} 行「${firstHttp.name}」使用了 ${firstHttp.proto.toUpperCase()} 协议`,
+        titleEn: `Protocol Lacks UDP: Line ${firstHttp.lineNo} "${firstHttp.name}" uses plain ${firstHttp.proto.toUpperCase()}`,
+        detailZh:
+          "纯 HTTP / HTTPS 代理协议仅能承载 TCP，无法转发 UDP 443 (QUIC)。请为美区 AI 策略组更换支持原生 UDP 的协议（如 Snell v4–v6、Shadowsocks 开启 udp-relay=true、Trojan、VMess/VLESS、TUIC、Hysteria2 或 WireGuard）。",
+        detailEn:
+          "Plain HTTP/HTTPS proxies do not transport UDP. Switch your US AI node to Snell, SS (udp-relay=true), Trojan, VLESS/VMess, TUIC, Hysteria2, or WireGuard.",
+      });
+    }
+
+    const ssNoUdp = candidates.find(
+      (p) =>
+        (p.proto === "ss" || p.proto === "shadowsocks" || p.proto === "socks5" || p.proto === "socks5-tls") &&
+        p.flags.get("udp-relay") !== "true" &&
+        p.flags.get("udp-relay") !== "1" &&
+        p.flags.get("udp-relay") !== "false"
+    );
+    if (ssNoUdp) {
+      findings.push({
+        id: "surge-ss-udp-missing",
+        severity: "warn",
+        line: ssNoUdp.lineNo,
+        titleZh: `第 ${ssNoUdp.lineNo} 行节点「${ssNoUdp.name}」(${ssNoUdp.proto}) 未显式声明 udp-relay=true`,
+        titleEn: `Line ${ssNoUdp.lineNo} node "${ssNoUdp.name}" (${ssNoUdp.proto}) omits udp-relay=true`,
+        detailZh:
+          "Surge 中 Shadowsocks / SOCKS5 节点默认不开启 UDP 转发，未加 udp-relay=true 时会导致 PCC 的 QUIC 请求降级或报错。建议在节点行末尾追加 , udp-relay=true（并确认服务端防火墙已开 UDP）。",
+        detailEn:
+          "In Surge, Shadowsocks/SOCKS5 proxies disable UDP by default unless udp-relay=true is appended.",
+      });
+    }
+  } else if (isYaml && yamlProxies.length > 0) {
+    const activeNodes = yamlProxies.filter((p) => !/^(direct|reject|dns|pass)$/i.test(p.type || ""));
+    if (activeNodes.length > 0) {
+      let candidates = [];
+      if (pccRule?.policy) {
+        const exact = activeNodes.find((p) => p.name === pccRule.policy);
+        if (exact) candidates = [exact];
+      }
+      if (candidates.length === 0) {
+        const usNodes = activeNodes.filter((p) => usNameRe.test(p.name));
+        candidates = usNodes.length > 0 ? usNodes : activeNodes;
+      }
+
+      const explicitOff = candidates.find((p) => p.udp === false || p.type === "http");
+      if (explicitOff) {
+        findings.push({
+          id: "clash-node-udp-false",
+          severity: "error",
+          line: explicitOff.lineNo,
+          titleZh:
+            explicitOff.type === "http"
+              ? `代理协议不支持 UDP：第 ${explicitOff.lineNo} 行节点「${explicitOff.name}」为 HTTP 协议`
+              : `节点显式禁用 UDP：第 ${explicitOff.lineNo} 行节点「${explicitOff.name}」配置了 udp: false`,
+          titleEn:
+            explicitOff.type === "http"
+              ? `Protocol Lacks UDP: Line ${explicitOff.lineNo} node "${explicitOff.name}" uses HTTP`
+              : `Node Disables UDP: Line ${explicitOff.lineNo} node "${explicitOff.name}" sets udp: false`,
+          detailZh:
+            "Apple PCC 与相册「高质量消除」依赖 UDP 443 (QUIC)，禁用 UDP 会导致握手失败报 Code=32033。请将该美区节点改为 udp: true（并确认 VPS 服务端已放行端口 UDP）。",
+          detailEn:
+            "Apple PCC & Photos High-Quality Clean Up require UDP 443 (QUIC). Set udp: true on your US proxy node.",
+          fix: "udp: true",
+        });
+      } else {
+        const missingUdp = candidates.find(
+          (p) => p.udp === undefined && !/^(hysteria2?|tuic|wireguard)$/i.test(p.type || "")
+        );
+        if (missingUdp) {
+          findings.push({
+            id: "clash-node-udp-missing",
+            severity: "warn",
+            line: missingUdp.lineNo,
+            titleZh: `第 ${missingUdp.lineNo} 行节点「${missingUdp.name || missingUdp.type}」未声明 udp: true`,
+            titleEn: `Line ${missingUdp.lineNo} node "${missingUdp.name || missingUdp.type}" omits udp: true`,
+            detailZh:
+              "Clash / Mihomo / Stash 中大多数代理协议若未显式声明 udp: true 默认不转发 UDP 流量，会导致 PCC 与相册高质量消除连接失败。建议在节点配置中加入 udp: true（若使用远程订阅可在 proxy-providers 下加 override: { udp: true }）。",
+            detailEn:
+              "Clash/Mihomo/Stash nodes omit UDP relay unless udp: true is specified. Add udp: true (or proxy-providers override: { udp: true }).",
+            fix: "udp: true",
+          });
+        }
+      }
+    }
+  }
+
   // --- CHECK 5: Location / Siri MitM Pinning Conflict ---
   const badMitm = mitmLines.find((m) => /gspe1-ssl\.ls\.apple\.com|smoot\.apple\.com|guzzoni\.apple\.com/i.test(m.text));
   const badScript = scriptLines.find((s) =>
@@ -729,7 +936,8 @@ export function auditConfig(rawText) {
 /**
  * Scrubs proxy server IPs, passwords, UUIDs, WireGuard keys, MitM CA secrets,
  * and airport subscription URLs strictly in local memory before displaying/auditing,
- * while preserving [General], [Rule], direct aliases, and MitM hostnames for 100% accurate auditing.
+ * while preserving [General], [Rule], direct aliases, safe UDP/QUIC boolean flags,
+ * and MitM hostnames for 100% accurate auditing.
  */
 export function scrubConfigSecrets(rawText) {
   const input = String(rawText || "");
@@ -740,6 +948,7 @@ export function scrubConfigSecrets(rawText) {
   const isYaml = lines.some((l) => /^\s*(proxies|proxy-groups|rules|rule-providers|dns)\s*:/i.test(l));
 
   if (!isYaml) {
+    const SAFE_PROXY_FLAG_KEYS = new Set(["udp-relay", "block-quic", "quic-block", "mode"]);
     let section = "";
     const out = lines.map((line) => {
       const trimmed = line.trim();
@@ -760,13 +969,28 @@ export function scrubConfigSecrets(rawText) {
         const eqIdx = line.indexOf("=");
         if (eqIdx > 0) {
           const name = line.slice(0, eqIdx).trim();
-          const rhs = line.slice(eqIdx + 1).trim();
+          const rhs = stripInlineComment(line.slice(eqIdx + 1));
           if (/^(direct|reject(-tinygif|-drop|-no-drop)?)\b/i.test(rhs)) {
             return line;
           }
           if (!rhs.includes("[已本地脱敏")) {
             scrubbedCount++;
-            return `${name} = custom, 0.0.0.0, 443, [已本地脱敏抹除节点地址与密钥]`;
+            const parts = rhs.split(",").map((s) => s.trim());
+            const rawProto = (parts[0] || "custom").toLowerCase();
+            const safeProto = /^[a-z0-9_-]+$/.test(rawProto) ? rawProto : "custom";
+            const preservedFlags = [];
+            for (const p of parts.slice(1)) {
+              const kvIdx = p.indexOf("=");
+              if (kvIdx > 0) {
+                const k = p.slice(0, kvIdx).trim().toLowerCase();
+                const v = p.slice(kvIdx + 1).trim().replace(/^["']|["']$/g, "").toLowerCase();
+                if (SAFE_PROXY_FLAG_KEYS.has(k) && /^[a-z0-9_-]+$/.test(v)) {
+                  preservedFlags.push(`${k}=${v}`);
+                }
+              }
+            }
+            const flagSuffix = preservedFlags.length > 0 ? `, ${preservedFlags.join(", ")}` : "";
+            return `${name} = ${safeProto}, 0.0.0.0, 443${flagSuffix}, [已本地脱敏抹除节点地址与密钥]`;
           }
         }
       } else if (section === "proxy group") {

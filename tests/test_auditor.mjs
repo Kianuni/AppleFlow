@@ -177,4 +177,77 @@ for (const fmt of ["surge", "clash", "qx", "singbox"]) {
   assert(detail.content.includes("apple-relay.apple.com"), `Missing PCC domain in ${fmt}`);
 }
 
+// 9. Node-level UDP / QUIC audit checks (Surge & Clash YAML) + preservation across privacy scrubbing
+{
+  const surgeBadNode = `
+[General]
+skip-proxy = 127.0.0.1, guzzoni.apple.com
+always-real-ip = guzzoni.apple.com, *.guzzoni.apple.com, *.siri.apple.com
+
+[Proxy]
+🇺🇸 美区节点A = trojan, secret-us.host.io, 443, password=secret_pw_1, udp-relay=false, block-quic=on
+
+[Proxy Group]
+📟 智能助理 = select, 🇺🇸 美区节点A
+
+[Rule]
+DOMAIN-SUFFIX,guzzoni.apple.com,DIRECT
+DOMAIN-SUFFIX,siri.apple.com,DIRECT
+DOMAIN-SUFFIX,apple-relay.apple.com,📟 智能助理
+`;
+  const rawAudit = auditConfig(surgeBadNode);
+  const rawIds = new Set(rawAudit.findings.map((f) => f.id));
+  assert(rawIds.has("surge-node-udp-disabled"), "Should catch Surge udp-relay=false");
+  assert(rawIds.has("surge-node-block-quic"), "Should catch Surge block-quic=on");
+
+  const scrubbed = scrubConfigSecrets(surgeBadNode);
+  assert(!scrubbed.text.includes("secret-us.host.io"));
+  assert(!scrubbed.text.includes("secret_pw_1"));
+  const scrubbedAudit = auditConfig(scrubbed.text);
+  const scrubbedIds = new Set(scrubbedAudit.findings.map((f) => f.id));
+  assert(scrubbedIds.has("surge-node-udp-disabled"), "Scrubbed Surge config must preserve udp-relay=false detection");
+  assert(scrubbedIds.has("surge-node-block-quic"), "Scrubbed Surge config must preserve block-quic=on detection");
+
+  // Surge SS missing udp-relay=true -> warn; with udp-relay=true -> clean
+  const surgeSsNoUdp = surgeBadNode.replace(
+    "trojan, secret-us.host.io, 443, password=secret_pw_1, udp-relay=false, block-quic=on",
+    "ss, secret-us.host.io, 8388, encrypt-method=aes-256-gcm, password=secret_pw_2"
+  );
+  assert(auditConfig(scrubConfigSecrets(surgeSsNoUdp).text).findings.some((f) => f.id === "surge-ss-udp-missing"));
+
+  const surgeSsWithUdp = surgeSsNoUdp.replace("password=secret_pw_2", "password=secret_pw_2, udp-relay=true");
+  assert.equal(auditConfig(scrubConfigSecrets(surgeSsWithUdp).text).score, 100);
+
+  // Clash multi-line YAML proxy with udp: false vs missing udp: true vs udp: true
+  const clashUdpFalse = `
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  fake-ip-filter:
+    - "guzzoni.apple.com"
+    - "+.siri.apple.com"
+proxies:
+  - name: "🇺🇸 US-Trojan"
+    type: trojan
+    server: us.private.example
+    port: 443
+    password: secret_clash_password
+    udp: false
+rules:
+  - DOMAIN-SUFFIX,guzzoni.apple.com,DIRECT
+  - DOMAIN-SUFFIX,siri.apple.com,DIRECT
+  - DOMAIN-SUFFIX,apple-relay.apple.com,🇺🇸 US-Trojan
+`;
+  const scrubbedClashFalse = scrubConfigSecrets(clashUdpFalse);
+  assert(!scrubbedClashFalse.text.includes("secret_clash_password"));
+  assert(!scrubbedClashFalse.text.includes("us.private.example"));
+  assert(auditConfig(scrubbedClashFalse.text).findings.some((f) => f.id === "clash-node-udp-false"));
+
+  const clashMissingUdp = clashUdpFalse.replace("    udp: false\n", "");
+  assert(auditConfig(scrubConfigSecrets(clashMissingUdp).text).findings.some((f) => f.id === "clash-node-udp-missing"));
+
+  const clashUdpTrue = clashUdpFalse.replace("udp: false", "udp: true");
+  assert.equal(auditConfig(scrubConfigSecrets(clashUdpTrue).text).score, 100);
+}
+
 console.log("PASS: All AppleFlow auditor, privacy scrubber & ruleset unit tests passed.");

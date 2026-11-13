@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AppleFlow — Apple 智能、相册高质量消除与中文 Siri 极简分流与配置体检</title>
   <meta name="description" content="专为 iOS / iPadOS / macOS 26–27 打造的零 MitM 分流方案：中文 Siri 与普通话来电筛选真实 IP 直连 + Apple Intelligence PCC / 相册高质量消除 / ChatGPT / 视觉智能分流模块、纯规则集、本地脱敏体检与出口探针。" />
-  <link rel="stylesheet" href="./style.css?v=1.0.2" />
+  <link rel="stylesheet" href="./style.css?v=1.0.3" />
 </head>
 <body>
   <div class="container">
@@ -115,7 +115,7 @@
       <div class="card">
         <h2 class="card-title" data-i18n="doctorTitle">本地自动脱敏配置排雷体检</h2>
         <p class="card-sub" data-i18n="doctorSub">
-          默认在读取瞬间自动抹除所有节点 IP、密码、UUID 与机场订阅 URL；你也可以只复制粘贴 [General] + [Rule] + [MITM] 三段（无需提供 [Proxy] 节点列表）。
+          默认在读取瞬间自动抹除所有节点 IP、密码、UUID 与机场订阅 URL，同时无损检测分流规则顺序与节点 UDP / QUIC 开关状态。
         </p>
 
         <div class="privacy-trust-bar">
@@ -147,7 +147,7 @@
             id="auditInput"
             class="audit-textarea"
             spellcheck="false"
-            placeholder="无需粘贴 [Proxy] 节点列表！可直接粘贴 [General]、[Rule]、[MITM] 段落（或拖入完整 .conf / .yaml，系统将在本地瞬间抹除所有密码与订阅链接后再扫描）..."
+            placeholder="可直接拖入或粘贴完整 .conf / .yaml（系统在本地内存瞬间抹除所有节点地址、密码与订阅链接，仅保留分流规则与非敏感 UDP/QUIC 开关供排雷）..."
           ></textarea>
         </div>
 
@@ -184,7 +184,7 @@
             <h3>相册「高质量消除」提示消除出错</h3>
             <ul>
               <li><strong>根因 1（漏分流报 <code>Code=32033</code>）</strong>：通用规则集漏了 <code>issuer.apple.com</code>、<code>ropes.apple.com</code>、<code>mask*.icloud.com</code> 或 <code>app.apple.com</code>，掉入 <code>Apple_All</code> 直连被拒。换用 AppleFlow 规则并点「更新外部资源」。</li>
-              <li><strong>根因 2（节点 UDP 不通 / <code>QUIC-BLOCK</code>）</strong>：PCC 依赖 UDP 443 (QUIC)，请确认美区节点服务端已放行 UDP 端口且未拦截 QUIC。</li>
+              <li><strong>根因 2（客户端或服务端 UDP 不通 / <code>QUIC-BLOCK</code>）</strong>：PCC 强依赖 UDP 443 (QUIC)。① 客户端切到上方「配置体检」检查节点是否误配 <code>block-quic=on</code>、<code>udp-relay=false</code> 或漏写 <code>udp: true</code>；② 若自建 VPS 节点在 Surge 最近请求出现 <code>QUIC-BLOCK</code>，需去 <strong>VPS 防火墙 / 安全组放行节点端口的 UDP 协议</strong>。</li>
               <li><strong>清缓存与配额冷却</strong>：改好规则后<strong>重启一次手机</strong>清掉本地 <code>32033/1009</code> 退避缓存；若触发苹果服务端频率配额则停手等待数小时恢复。</li>
             </ul>
           </div>
@@ -266,6 +266,6 @@
   </div>
 
   <div id="toast" class="toast">已复制到剪贴板</div>
-  <script type="module" src="./app.js?v=1.0.2"></script>
+  <script type="module" src="./app.js?v=1.0.3"></script>
 </body>
 </html>

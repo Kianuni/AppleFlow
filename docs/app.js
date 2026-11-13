@@ -7,7 +7,7 @@ import {
   getStandaloneRulesetUrl,
   renderStandaloneRulesetContent,
   scrubConfigSecrets,
-} from "./auditor.js";
+} from "./auditor.js?v=1.0.3";
 
 const state = {
   lang: "zh",
@@ -171,7 +171,7 @@ const I18N = {
     rsCopyContent: "复制规则内容",
     rsClosePreview: "收起预览",
     doctorTitle: "本地自动脱敏配置排雷体检",
-    doctorSub: "默认在读取瞬间自动抹除所有节点 IP、密码、UUID 与机场订阅 URL；你也可以只复制粘贴 [General] + [Rule] + [MITM] 三段（无需提供 [Proxy] 节点列表）。",
+    doctorSub: "默认在读取瞬间自动抹除所有节点 IP、密码、UUID 与机场订阅 URL，同时无损检测分流规则顺序与节点 UDP / QUIC 开关状态。",
     trust1: "导入即本地抹除节点密钥与订阅链接",
     trust2: "支持断网/飞行模式离线体检（F12 Network 零请求）",
     trust3: "查看未压缩源码 (auditor.js) ↗",
@@ -218,7 +218,7 @@ const I18N = {
     rsCopyContent: "Copy Rules",
     rsClosePreview: "Close Preview",
     doctorTitle: "Local Auto-Redacting Config Doctor",
-    doctorSub: "Automatically strips proxy server IPs, passwords, UUIDs, and subscription URLs locally in memory — or paste [General] + [Rule] + [MITM] without [Proxy].",
+    doctorSub: "Automatically strips proxy server IPs, passwords, UUIDs, and subscription URLs locally in memory while auditing routing rules and node UDP/QUIC flags.",
     trust1: "Auto-redacts credentials & sub URLs",
     trust2: "Works offline in Airplane Mode (0 network calls)",
     trust3: "Inspect unminified source (auditor.js) ↗",
@@ -450,7 +450,7 @@ always-real-ip = *.srv.nintendo.net
 
 [Proxy]
 🌐 全球直连 = direct
-🇺🇸 示例美区节点 = trojan, us1.example.com, 443, password=my_super_secret_password
+🇺🇸 示例美区节点 = trojan, us1.example.com, 443, password=my_super_secret_password, udp-relay=false, block-quic=on
 
 [Rule]
 # 错误 1：全局一刀切拦截了 QUIC (UDP 443)，拖慢甚至阻断 PCC 中继
