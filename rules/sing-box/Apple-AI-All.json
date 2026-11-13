@@ -12,6 +12,8 @@
         "lens.google.com"
       ],
       "domain_suffix": [
+        "issuer.apple.com",
+        "ropes.apple.com",
         "app.apple.com",
         "apple-relay.apple.com",
         "apple-relay.cloudflare.com",

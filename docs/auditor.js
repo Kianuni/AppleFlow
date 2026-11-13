@@ -20,6 +20,8 @@ export const RULE_BUNDLES = {
   ],
   applePCC: [
     { type: "DOMAIN", value: "gspe1-ssl.ls.apple.com", noteZh: "Apple 智能区域与定位准入校验（禁 MitM）", noteEn: "Geo-eligibility check (never MitM on iOS 27.2+)" },
+    { type: "DOMAIN-SUFFIX", value: "issuer.apple.com", noteZh: "PCC 盲签名令牌签发（inference / waitlist）", noteEn: "PCC blind signature token issuer (inference / waitlist)" },
+    { type: "DOMAIN-SUFFIX", value: "ropes.apple.com", noteZh: "PCC ROPES 隐私推理网关", noteEn: "PCC ROPES inference gateway" },
     { type: "DOMAIN", value: "mask-api.icloud.com", noteZh: "PCC 匿名令牌签发", noteEn: "PCC anonymous token issuer" },
     { type: "DOMAIN", value: "mask.icloud.com", noteZh: "PCC OHTTP 盲化网关", noteEn: "PCC OHTTP gateway" },
     { type: "DOMAIN", value: "mask-h2.icloud.com", noteZh: "PCC OHTTP HTTP/2 回退网关", noteEn: "PCC OHTTP H2 fallback" },
@@ -563,18 +565,18 @@ export function auditConfig(rawText) {
 
   // --- CHECK 3: Apple PCC Routing & Catch-All Apple Rule Shadowing ---
   const pccRule = rules.find((r) =>
-    /apple-relay|Apple-PCC|appleflow-pcc|AI\.list|apple_intelligence|ai\.conf/i.test(r.pattern)
+    /apple-relay|Apple-PCC|Apple-AI-All|AppleFlow-All|appleflow-pcc|AI\.list|apple_intelligence|ai\.conf/i.test(r.pattern)
   );
   const maskExplicit = rules.find((r) =>
-    /mask(-api|-h2)?\.icloud\.com|Apple-PCC|appleflow-pcc|apple_intelligence/i.test(r.pattern)
+    /mask(-api|-h2)?\.icloud\.com|issuer\.apple\.com|Apple-PCC|Apple-AI-All|AppleFlow-All|appleflow-pcc/i.test(r.pattern)
   );
   const cleanupExplicit = rules.find((r) =>
-    /app\.apple\.com|Apple-PCC|appleflow-pcc|apple_intelligence/i.test(r.pattern)
+    /app\.apple\.com|ropes\.apple\.com|Apple-PCC|Apple-AI-All|AppleFlow-All|appleflow-pcc/i.test(r.pattern)
   );
   const catchAllAppleDirect = rules.find((r) => {
     const matchesApple =
       /Apple_All|Apple\.list|Apple\.conf|^apple$|icloud\.com|^\.?apple\.com$/i.test(r.pattern) &&
-      !/apple-relay|apple_intelligence|Apple-PCC|Apple-APNs/i.test(r.pattern);
+      !/apple-relay|apple_intelligence|Apple-PCC|Apple-AI-All|Apple-AI-Ext|AppleFlow-All|Apple-APNs/i.test(r.pattern);
     if (!matchesApple) return false;
     return (
       isLikelyDirectTarget(r.policy, knownDirectAliases) ||

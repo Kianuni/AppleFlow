@@ -435,8 +435,8 @@ const REGION_LANES = [
 
 const PROBE_TARGETS = [
   { host: "guzzoni.apple.com", url: "https://guzzoni.apple.com", roleZh: "中文 Siri 与来电筛选网关（期望：国内直连）", roleEn: "Mandarin Siri Core (Expect: DIRECT)" },
-  { host: "gspe1-ssl.ls.apple.com", url: "https://gspe1-ssl.ls.apple.com", roleZh: "区域定位准入校验（期望：美区节点 · 禁 MitM）", roleEn: "Geo Eligibility (Expect: US Proxy · No MitM)" },
-  { host: "apple-relay.apple.com", url: "https://apple-relay.apple.com", roleZh: "PCC OHTTP 主中继（期望：美区节点）", roleEn: "PCC OHTTP Main Relay (Expect: US Proxy)" },
+  { host: "gspe1-ssl.ls.apple.com", url: "https://gspe1-ssl.ls.apple.com/pep/gcc", roleZh: "区域定位准入校验（期望：美区节点 · 禁 MitM）", roleEn: "Geo Eligibility (Expect: US Proxy · No MitM)" },
+  { host: "ropes.apple.com", url: "https://ropes.apple.com", roleZh: "PCC ROPES 隐私计算网关（期望：美区节点）", roleEn: "PCC ROPES Gateway (Expect: US Proxy)" },
   { host: "apple-relay.cloudflare.com", url: "https://apple-relay.cloudflare.com", roleZh: "PCC Cloudflare 边缘中继（期望：美区节点）", roleEn: "PCC Cloudflare Relay (Expect: US Proxy)" },
   { host: "apple-relay.fastly-edge.com", url: "https://apple-relay.fastly-edge.com", roleZh: "PCC Fastly 边缘中继（期望：美区节点）", roleEn: "PCC Fastly Relay (Expect: US Proxy)" },
   { host: "mask-api.icloud.com", url: "https://mask-api.icloud.com", roleZh: "PCC 匿名令牌签发（期望：美区节点）", roleEn: "PCC Blind Token Mask (Expect: US Proxy)" },

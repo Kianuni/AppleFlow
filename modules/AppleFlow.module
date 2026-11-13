@@ -13,6 +13,8 @@ DOMAIN,dejavu.apple.com,DIRECT
 DOMAIN,sequoia.apple.com,DIRECT
 DOMAIN-SUFFIX,smoot.apple.com,DIRECT
 DOMAIN,gspe1-ssl.ls.apple.com,PROXY
+DOMAIN-SUFFIX,issuer.apple.com,PROXY
+DOMAIN-SUFFIX,ropes.apple.com,PROXY
 DOMAIN,mask-api.icloud.com,PROXY
 DOMAIN,mask.icloud.com,PROXY
 DOMAIN,mask-h2.icloud.com,PROXY

@@ -30,6 +30,8 @@ rules:
   - DOMAIN-SUFFIX,smoot.apple.com,DIRECT
   # 2. Apple Intelligence PCC 与区域准入（置顶防 GEOSITE,apple,DIRECT 抢行）
   - DOMAIN,gspe1-ssl.ls.apple.com,PROXY
+  - DOMAIN-SUFFIX,issuer.apple.com,PROXY
+  - DOMAIN-SUFFIX,ropes.apple.com,PROXY
   - DOMAIN,mask-api.icloud.com,PROXY
   - DOMAIN,mask.icloud.com,PROXY
   - DOMAIN,mask-h2.icloud.com,PROXY

@@ -21,6 +21,8 @@ DOMAIN-SUFFIX,smoot.apple.com,DIRECT
 
 # 2. Apple Intelligence 区域准入与 PCC 隐私云计算（置顶防 Apple_All 抢行）
 DOMAIN,gspe1-ssl.ls.apple.com,{{{Policy}}}
+DOMAIN-SUFFIX,issuer.apple.com,{{{Policy}}}
+DOMAIN-SUFFIX,ropes.apple.com,{{{Policy}}}
 DOMAIN,mask-api.icloud.com,{{{Policy}}}
 DOMAIN,mask.icloud.com,{{{Policy}}}
 DOMAIN,mask-h2.icloud.com,{{{Policy}}}
