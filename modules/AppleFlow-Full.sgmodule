@@ -1,0 +1,45 @@
+#!name=AppleFlow · Apple 智能与中文 Siri 全套分流
+#!desc=零 MitM 新一代 Apple 智能分流：锁定中文 Siri 与普通话来电筛选 (guzzoni) 真实 IP 直连，同时将 Apple Intelligence PCC 隐私云计算与区域准入置顶分流至指定美区策略组（默认 PROXY，可在模块参数中自定义）。
+#!author=Kianuni[https://github.com/Kianuni/AppleFlow]
+#!homepage=https://kianuni.github.io/AppleFlow/
+#!category= AppleFlow
+#!version=1.0.0
+#!arguments=Policy:PROXY
+#!arguments-desc=Policy：填写你配置中的低延迟美国策略组或节点名称（例如 PROXY、🇺🇸 美国节点、📟 智能助理、AI）。请确保该节点支持 UDP / QUIC 且勿对 apple-relay 启用 REJECT。
+
+[General]
+skip-proxy = %APPEND% guzzoni.apple.com
+always-real-ip = %APPEND% guzzoni.apple.com, *.guzzoni.apple.com, *.siri.apple.com, dejavu.apple.com, sequoia.apple.com, *.smoot.apple.com, *.push.apple.com
+
+[Rule]
+# 1. 中文 Siri 与普通话「询问来电原因」核心语音网关（必须真实 IP 直连，严禁走海外代理）
+DOMAIN-SUFFIX,guzzoni.apple.com,DIRECT
+DOMAIN-SUFFIX,siri.apple.com,DIRECT
+DOMAIN,dejavu.apple.com,DIRECT
+DOMAIN,sequoia.apple.com,DIRECT
+DOMAIN-SUFFIX,smoot.apple.com,DIRECT
+
+# 2. Apple Intelligence 区域准入与 PCC 隐私云计算（置顶防 Apple_All 抢行）
+DOMAIN,gspe1-ssl.ls.apple.com,{{{Policy}}}
+DOMAIN,mask-api.icloud.com,{{{Policy}}}
+DOMAIN,mask.icloud.com,{{{Policy}}}
+DOMAIN,mask-h2.icloud.com,{{{Policy}}}
+DOMAIN,ss-cleanup-proxy-prod.us-east-1m.app.apple.com,{{{Policy}}}
+DOMAIN-SUFFIX,app.apple.com,{{{Policy}}}
+DOMAIN-SUFFIX,apple-relay.apple.com,{{{Policy}}}
+DOMAIN-SUFFIX,apple-relay.cloudflare.com,{{{Policy}}}
+DOMAIN-SUFFIX,apple-relay.fastly-edge.com,{{{Policy}}}
+DOMAIN-SUFFIX,apple-relay.akamaized.net,{{{Policy}}}
+DOMAIN-SUFFIX,cp4.cloudflare.com,{{{Policy}}}
+
+# 3. Siri ChatGPT 扩展、Claude 与视觉智能 Google 识图
+DOMAIN-SUFFIX,openai.com,{{{Policy}}}
+DOMAIN-SUFFIX,chatgpt.com,{{{Policy}}}
+DOMAIN-SUFFIX,oaistatic.com,{{{Policy}}}
+DOMAIN-SUFFIX,oaiusercontent.com,{{{Policy}}}
+DOMAIN,openai-api.arkoselabs.com,{{{Policy}}}
+DOMAIN-SUFFIX,googleapis.com,{{{Policy}}}
+DOMAIN-SUFFIX,gstatic.com,{{{Policy}}}
+DOMAIN,lens.google.com,{{{Policy}}}
+DOMAIN-SUFFIX,anthropic.com,{{{Policy}}}
+DOMAIN-SUFFIX,claude.ai,{{{Policy}}}

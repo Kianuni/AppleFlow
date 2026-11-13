@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "openai-api.arkoselabs.com",
+        "lens.google.com"
+      ],
+      "domain_suffix": [
+        "openai.com",
+        "chatgpt.com",
+        "oaistatic.com",
+        "oaiusercontent.com",
+        "googleapis.com",
+        "gstatic.com",
+        "anthropic.com",
+        "claude.ai"
+      ]
+    }
+  ]
+}

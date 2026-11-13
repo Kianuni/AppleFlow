@@ -1,0 +1,8 @@
+# AppleFlow — Siri Direct (Quantumult X)
+# Homepage: https://kianuni.github.io/AppleFlow/
+
+HOST-SUFFIX,guzzoni.apple.com,DIRECT // Siri & 普通话来电筛选核心语音网关（严禁代理或 Fake-IP）
+HOST-SUFFIX,siri.apple.com,DIRECT // Siri 语音服务域名
+HOST,dejavu.apple.com,DIRECT // Siri 语音识别辅助服务
+HOST,sequoia.apple.com,DIRECT // Siri 自然语言服务
+HOST-SUFFIX,smoot.apple.com,DIRECT // Spotlight / Siri 搜索建议（切勿开启旧版 MitM）

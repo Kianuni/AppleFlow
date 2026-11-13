@@ -1,0 +1,26 @@
+# AppleFlow — All-in-One Apple Intelligence & Extensions (PCC + ChatGPT + Lens + Claude)
+# 合并美区总规则集：包含 Apple PCC 隐私云计算与全部外部 AI 扩展，置于 Apple_All 之前并指向美区策略组
+# Homepage: https://kianuni.github.io/AppleFlow/
+# Version: 1.0.0
+
+DOMAIN,gspe1-ssl.ls.apple.com // Apple 智能区域与定位准入校验（iOS 27.2+ 严禁开启 MitM）
+DOMAIN,mask-api.icloud.com // PCC / 专用代理匿名令牌签发
+DOMAIN,mask.icloud.com // PCC OHTTP 盲化网关
+DOMAIN,mask-h2.icloud.com // PCC OHTTP HTTP/2 回退网关
+DOMAIN,ss-cleanup-proxy-prod.us-east-1m.app.apple.com // Apple 生成式云端推理节点
+DOMAIN-SUFFIX,app.apple.com // Apple 生成式云端推理服务接口
+DOMAIN-SUFFIX,apple-relay.apple.com // Apple 智能 PCC 隐私云计算中继（请勿拦截 UDP 443 / QUIC）
+DOMAIN-SUFFIX,apple-relay.cloudflare.com // PCC Cloudflare OHTTP 中继
+DOMAIN-SUFFIX,apple-relay.fastly-edge.com // PCC Fastly OHTTP 中继
+DOMAIN-SUFFIX,apple-relay.akamaized.net // PCC Akamai OHTTP 中继
+DOMAIN-SUFFIX,cp4.cloudflare.com // Apple 隐私中继辅助端点
+DOMAIN-SUFFIX,openai.com // Siri ChatGPT 扩展核心接口
+DOMAIN-SUFFIX,chatgpt.com // Siri ChatGPT 扩展与账户登录
+DOMAIN-SUFFIX,oaistatic.com // OpenAI 静态资源
+DOMAIN-SUFFIX,oaiusercontent.com // ChatGPT 生图与多模态附件
+DOMAIN,openai-api.arkoselabs.com // OpenAI 安全校验
+DOMAIN-SUFFIX,googleapis.com // 视觉智能 Google 识图接口
+DOMAIN-SUFFIX,gstatic.com // Google 识图静态资源
+DOMAIN,lens.google.com // 视觉智能 Google Lens 识图
+DOMAIN-SUFFIX,anthropic.com // Claude / Xcode Intelligence 扩展
+DOMAIN-SUFFIX,claude.ai // Claude AI 服务

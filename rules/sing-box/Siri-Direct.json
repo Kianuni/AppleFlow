@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "dejavu.apple.com",
+        "sequoia.apple.com"
+      ],
+      "domain_suffix": [
+        "guzzoni.apple.com",
+        "siri.apple.com",
+        "smoot.apple.com"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# AppleFlow — Apple Intelligence PCC (Quantumult X)
+# Homepage: https://kianuni.github.io/AppleFlow/
+
+HOST,gspe1-ssl.ls.apple.com,AppleAI // Apple 智能区域与定位准入校验（iOS 27.2+ 严禁开启 MitM）
+HOST,mask-api.icloud.com,AppleAI // PCC / 专用代理匿名令牌签发
+HOST,mask.icloud.com,AppleAI // PCC OHTTP 盲化网关
+HOST,mask-h2.icloud.com,AppleAI // PCC OHTTP HTTP/2 回退网关
+HOST,ss-cleanup-proxy-prod.us-east-1m.app.apple.com,AppleAI // Apple 生成式云端推理节点
+HOST-SUFFIX,app.apple.com,AppleAI // Apple 生成式云端推理服务接口
+HOST-SUFFIX,apple-relay.apple.com,AppleAI // Apple 智能 PCC 隐私云计算中继（请勿拦截 UDP 443 / QUIC）
+HOST-SUFFIX,apple-relay.cloudflare.com,AppleAI // PCC Cloudflare OHTTP 中继
+HOST-SUFFIX,apple-relay.fastly-edge.com,AppleAI // PCC Fastly OHTTP 中继
+HOST-SUFFIX,apple-relay.akamaized.net,AppleAI // PCC Akamai OHTTP 中继
+HOST-SUFFIX,cp4.cloudflare.com,AppleAI // Apple 隐私中继辅助端点

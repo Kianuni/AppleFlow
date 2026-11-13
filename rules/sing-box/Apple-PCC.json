@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "gspe1-ssl.ls.apple.com",
+        "mask-api.icloud.com",
+        "mask.icloud.com",
+        "mask-h2.icloud.com",
+        "ss-cleanup-proxy-prod.us-east-1m.app.apple.com"
+      ],
+      "domain_suffix": [
+        "app.apple.com",
+        "apple-relay.apple.com",
+        "apple-relay.cloudflare.com",
+        "apple-relay.fastly-edge.com",
+        "apple-relay.akamaized.net",
+        "cp4.cloudflare.com"
+      ]
+    }
+  ]
+}

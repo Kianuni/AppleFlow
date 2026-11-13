@@ -1,0 +1,13 @@
+# AppleFlow — Siri ChatGPT & Visual Intelligence
+# Homepage: https://kianuni.github.io/AppleFlow/
+payload:
+  - DOMAIN-SUFFIX,openai.com # Siri ChatGPT 扩展核心接口
+  - DOMAIN-SUFFIX,chatgpt.com # Siri ChatGPT 扩展与账户登录
+  - DOMAIN-SUFFIX,oaistatic.com # OpenAI 静态资源
+  - DOMAIN-SUFFIX,oaiusercontent.com # ChatGPT 生图与多模态附件
+  - DOMAIN,openai-api.arkoselabs.com # OpenAI 安全校验
+  - DOMAIN-SUFFIX,googleapis.com # 视觉智能 Google 识图接口
+  - DOMAIN-SUFFIX,gstatic.com # Google 识图静态资源
+  - DOMAIN,lens.google.com # 视觉智能 Google Lens 识图
+  - DOMAIN-SUFFIX,anthropic.com # Claude / Xcode Intelligence 扩展
+  - DOMAIN-SUFFIX,claude.ai # Claude AI 服务

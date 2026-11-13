@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AppleFlow — Apple 智能与中文 Siri 极简分流与配置体检</title>
+  <meta name="description" content="专为 iOS / iPadOS / macOS 26–27 打造的零 MitM 分流方案：中文 Siri 与普通话来电筛选真实 IP 直连 + Apple Intelligence PCC / ChatGPT / 视觉智能分流模块、纯规则集、本地脱敏体检与出口探针。" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span>AppleFlow</span>
+      </div>
+      <div class="topbar-actions">
+        <button id="langToggle" class="pill-btn" type="button">EN / 中文</button>
+        <a class="pill-btn" href="https://github.com/Kianuni/Erosion-CN" target="_blank" rel="noopener">Erosion-CN</a>
+        <a class="pill-btn" href="https://github.com/Kianuni/AppleFlow" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-badge" data-i18n="heroBadge">零 MitM · 零证书报错 · iOS / macOS 26–27 实机验证</div>
+      <h1 data-i18n="heroTitle">Apple 智能时代的极简分流与排雷工具</h1>
+      <p data-i18n="heroSub">
+        无需 HTTPS 解密与重写脚本。一套轻量分流同时保障「中文普通话 Siri 不报错 + 普通话来电筛选保留 + Apple Intelligence PCC 隐私云计算 + ChatGPT 视觉智能」。
+      </p>
+
+      <div class="law-grid">
+        <div class="law-card">
+          <strong data-i18n="law1Title">01 · 中文 Siri 真实 IP 直连</strong>
+          <span data-i18n="law1Desc">guzzoni 与 *.siri.apple.com 走代理或 Fake-IP 必报错，必须 DIRECT + always-real-ip。</span>
+        </div>
+        <div class="law-card">
+          <strong data-i18n="law2Title">02 · PCC 隐私计算置顶美区</strong>
+          <span data-i18n="law2Desc">apple-relay.*、mask*.icloud.com、gspe1-ssl 置于 Apple_All 之前，保留 UDP 443。</span>
+        </div>
+        <div class="law-card">
+          <strong data-i18n="law3Title">03 · 免定位 / Siri MitM 解密</strong>
+          <span data-i18n="law3Desc">iOS 27.2+ 已启用强证书固定，避免对 gspe1-ssl 或 smoot 启用 MitM 解密导致断连。</span>
+        </div>
+        <div class="law-card">
+          <strong data-i18n="law4Title">04 · 地区设「台湾」+ 外区商店</strong>
+          <span data-i18n="law4Desc">既避开大陆地区限制，又完整保留普通话「询问来电原因」来电筛选。</span>
+        </div>
+      </div>
+    </section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="studio" type="button" data-i18n="tabStudio">模块安装</button>
+      <button class="tab-btn" data-tab="rulesets" type="button" data-i18n="tabRulesets">分流规则集</button>
+      <button class="tab-btn" data-tab="doctor" type="button" data-i18n="tabDoctor">配置体检</button>
+      <button class="tab-btn" data-tab="symptoms" type="button" data-i18n="tabSymptoms">故障速查</button>
+      <button class="tab-btn" data-tab="probe" type="button" data-i18n="tabProbe">出口探针</button>
+    </nav>
+
+    <!-- TAB 1: CLEAN ONE-TAP MODULE INSTALL -->
+    <section id="panel-studio" class="panel active">
+      <div class="card">
+        <h2 class="card-title" data-i18n="studioTitle">客户端独立模块（一键挂载）</h2>
+        <p class="card-sub" data-i18n="studioSub">
+          已内置真实 IP 护栏（always-real-ip / fake-ip-filter）与置顶分流规则。导入客户端后，可直接在模块参数中选择你的美区策略组名称。
+        </p>
+
+        <div class="client-grid" id="clientGrid">
+          <button class="chip active" data-client="surge" type="button">Surge 5 / 6</button>
+          <button class="chip" data-client="loon" type="button">Loon</button>
+          <button class="chip" data-client="shadowrocket" type="button">Shadowrocket</button>
+          <button class="chip" data-client="stash" type="button">Stash</button>
+          <button class="chip" data-client="mihomo" type="button">Mihomo (Clash Meta)</button>
+        </div>
+
+        <div id="moduleCardList" class="module-list"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SUBDIVIDED + COMBINED RULE-SETS -->
+    <section id="panel-rulesets" class="panel">
+      <div class="card">
+        <h2 class="card-title" data-i18n="rsTitle">纯净分流规则集（RULE-SET 远程订阅）</h2>
+        <p class="card-sub" data-i18n="rsSub">
+          供自维护主配置的用户直接复制远程规则链接：既可按功能拆分引用，也可直接使用下方合并总集。
+        </p>
+
+        <div class="client-grid" id="rsFormatGrid">
+          <button class="chip active" data-rsfmt="surge" type="button">Surge / Loon / 小火箭 (.list)</button>
+          <button class="chip" data-rsfmt="clash" type="button">Mihomo / Clash / Stash (.yaml)</button>
+          <button class="chip" data-rsfmt="qx" type="button">Quantumult X (.list)</button>
+          <button class="chip" data-rsfmt="singbox" type="button">Sing-box (.json)</button>
+        </div>
+
+        <h3 class="section-subtitle" data-i18n="rsSubdividedHeading">按功能细分规则集</h3>
+        <div id="rulesetCardGrid" class="rs-grid"></div>
+
+        <h3 class="section-subtitle" style="margin-top: 22px;" data-i18n="rsCombinedHeading">合并总规则集（一条包含全部）</h3>
+        <div id="combinedCardArea"></div>
+
+        <div id="rsDrawer" style="display:none; margin-top: 16px;">
+          <div class="code-header">
+            <span id="rsPreviewTitle"></span>
+            <div class="btn-row">
+              <button id="rsCopyBtn" class="btn" type="button" data-i18n="rsCopyContent">复制规则内容</button>
+              <button id="rsCloseDrawerBtn" class="btn" type="button" data-i18n="rsClosePreview">收起预览</button>
+            </div>
+          </div>
+          <pre class="code-block"><code id="rsCodePreview"></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: PRIVACY-FIRST CONFIG DOCTOR -->
+    <section id="panel-doctor" class="panel">
+      <div class="card">
+        <h2 class="card-title" data-i18n="doctorTitle">本地自动脱敏配置排雷体检</h2>
+        <p class="card-sub" data-i18n="doctorSub">
+          默认在读取瞬间自动抹除所有节点 IP、密码、UUID 与机场订阅 URL；你也可以只复制粘贴 [General] + [Rule] + [MITM] 三段（无需提供 [Proxy] 节点列表）。
+        </p>
+
+        <div class="privacy-trust-bar">
+          <span class="trust-pill" data-i18n="trust1">导入即本地抹除节点密钥与订阅链接</span>
+          <span class="trust-pill" data-i18n="trust2">支持断网/飞行模式离线体检（F12 Network 零请求）</span>
+          <a class="trust-pill trust-link" href="./auditor.js" target="_blank" rel="noopener" data-i18n="trust3">查看未压缩源码 (auditor.js) ↗</a>
+        </div>
+
+        <div class="dropzone" id="dropzone">
+          <div class="doctor-toolbar">
+            <div class="btn-row">
+              <label class="btn" style="cursor:pointer;">
+                <span data-i18n="chooseFile">选择本地配置文件</span>
+                <input id="fileInput" type="file" accept=".conf,.sgmodule,.plugin,.module,.yaml,.yml,.stoverride,.txt" hidden />
+              </label>
+              <button id="demoBrokenBtn" class="btn" type="button" data-i18n="loadBrokenDemo">载入翻车示例</button>
+              <button id="demoCleanBtn" class="btn" type="button" data-i18n="loadCleanDemo">载入满分示例</button>
+              <button id="clearAuditBtn" class="btn" type="button" data-i18n="clearAudit">清空</button>
+            </div>
+            <label class="scrub-toggle">
+              <input id="autoScrubChk" type="checkbox" checked />
+              <span data-i18n="autoScrubLabel">自动抹除节点密码与订阅 URL</span>
+            </label>
+          </div>
+
+          <div id="scrubNotice" class="scrub-notice" style="display:none;"></div>
+
+          <textarea
+            id="auditInput"
+            class="audit-textarea"
+            spellcheck="false"
+            placeholder="无需粘贴 [Proxy] 节点列表！可直接粘贴 [General]、[Rule]、[MITM] 段落（或拖入完整 .conf / .yaml，系统将在本地瞬间抹除所有密码与订阅链接后再扫描）..."
+          ></textarea>
+        </div>
+
+        <div id="auditResultArea" style="display:none;">
+          <div class="score-banner">
+            <div id="scoreBadge" class="score-badge score-good">100</div>
+            <div>
+              <div id="scoreSummaryTitle" style="font-weight:700; font-size:16px;"></div>
+              <div id="scoreSummarySub" style="font-size:13px; color:var(--text-secondary);"></div>
+            </div>
+          </div>
+          <div id="findingList" class="finding-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SYMPTOM DOCTOR -->
+    <section id="panel-symptoms" class="panel">
+      <div class="card">
+        <h2 class="card-title" data-i18n="symTitle">常见故障 3 秒定位手册</h2>
+        <p class="card-sub" data-i18n="symSub">遇到报错先别盲目换节点或重刷系统，对照下方现象直接定位根因：</p>
+
+        <div class="symptom-grid">
+          <div class="symptom-card">
+            <h3>中文 Siri 提示「我碰到了一点问题」</h3>
+            <ul>
+              <li><strong>根因 1</strong>：<code>guzzoni.apple.com</code> 或 <code>*.siri.apple.com</code> 走了海外代理（开全局代理也会触发）。</li>
+              <li><strong>根因 2</strong>：VIF DNS 返回了 <code>198.18.x.x</code> Fake-IP，未加入 <code>always-real-ip</code> / <code>fake-ip-filter</code>。</li>
+              <li><strong>根因 3</strong>：对 <code>gspe1-ssl.ls.apple.com</code> 或 <code>*.smoot.apple.com</code> 启用了 MitM 解密，关闭对应解密域名即可。</li>
+            </ul>
+          </div>
+
+          <div class="symptom-card">
+            <h3>云端图像消除间歇报错（与分流规则无关）</h3>
+            <ul>
+              <li><strong>苹果 PCC <code>Code=1009</code> 服务端限流</strong>：连续点击极易触发苹果单用户频率配额（非节点或规则故障）。</li>
+              <li><strong>本地缓存冷却</strong>：<code>privatecloudcomputed</code> 进程缓存了 <code>retry-after</code>，可尝试关机重启。</li>
+              <li><strong>服务端配额冷却</strong>：若重启后仍报错，换节点无效，需停手等待半天至 24 小时由苹果服务端自动解封。</li>
+            </ul>
+          </div>
+
+          <div class="symptom-card">
+            <h3>国行设备在 iOS 27.3 beta 1 下部分 AI 瞬报</h3>
+            <ul>
+              <li><strong>硬件级非缓存校验（非网络问题）</strong>：<code>27.3 beta 1</code> 新增 <code>Eligibility returned no CN region policy on a CH region code device</code>，相机 Siri 与云端照片接口在发网前即被系统本地拒单。</li>
+              <li><strong>外区商店账号检查</strong>：若在 <code>27.0–27.2.1</code> 瞬报，请检查媒体与购买项目是否已登录<strong>外区 App Store 账号</strong>（iCloud 主账号可留国区）。</li>
+            </ul>
+          </div>
+
+          <div class="symptom-card">
+            <h3>「询问来电原因」丢失中文普通话</h3>
+            <ul>
+              <li><strong>根因</strong>：把「设置 → 通用 → 语言与地区 → 地区」改成了「美国」（美国地区下苹果会隐藏普通话来电筛选）。</li>
+              <li><strong>黄金解法</strong>：首选语言第一项保持<strong>简体中文</strong>，地区改为<strong>台湾</strong>，Siri 语言保持<strong>中文（普通话 - 中国大陆）</strong>，即可满血 AI 与普通话来电筛选共存。</li>
+            </ul>
+          </div>
+
+          <div class="symptom-card">
+            <h3>Siri 调 ChatGPT 总是回复繁体字</h3>
+            <ul>
+              <li><strong>原因</strong>：地区设为「台湾」后，Siri 透传了繁中地区上下文。</li>
+              <li><strong>解法（切勿把地区改回美国）</strong>：进入「设置 → Apple 智能与 Siri → 扩展 → ChatGPT」登录账号，在 ChatGPT 自定义指令（Custom Instructions）中填入 <code>请始终使用简体中文回答</code> 即可。</li>
+            </ul>
+          </div>
+
+          <div class="symptom-card">
+            <h3>Apple 智能一直卡在「正在准备 / 下载」</h3>
+            <ul>
+              <li>连接 Wi-Fi 并插上充电器，确认 <code>apple-relay.*</code> 与 <code>gspe1-ssl.ls.apple.com</code> 已走<strong>低延迟美国节点</strong>且未拦截 UDP 443 (QUIC)。</li>
+              <li>若是国行改机设备，确认未开启家居中枢专属的 <code>DeviceSupportsSiriHub</code> 开关（开启会无限卡死「正在添加 Siri 支持内容」）。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: LIVE REGION & CONNECTIVITY PROBE -->
+    <section id="panel-probe" class="panel">
+      <div class="card">
+        <div class="card-head-split">
+          <div>
+            <h2 class="card-title" data-i18n="probeTitle">分流出口区域实测 & 核心端点连通性探针</h2>
+            <p class="card-sub" data-i18n="probeSub">
+              直接检测当前浏览器在「国内直连 / 默认海外代理 / ChatGPT / AI 中继」四条通道实际接通的国家地区与机房落点，并测试 Apple 原生网关握手延迟。
+            </p>
+          </div>
+          <label class="scrub-toggle">
+            <input id="showFullIpChk" type="checkbox" />
+            <span data-i18n="showFullIpLabel">显示完整出口 IP（默认打码）</span>
+          </label>
+        </div>
+
+        <div class="btn-row" style="margin-bottom: 16px;">
+          <button id="runProbeBtn" class="btn btn-primary" type="button" data-i18n="runProbe">开始检测接通节点区域与延迟</button>
+        </div>
+
+        <h3 class="section-subtitle" data-i18n="probeRegionHeading">四路实际分流出口区域与机房落点</h3>
+        <div id="regionLaneGrid" class="region-grid"></div>
+
+        <h3 class="section-subtitle" style="margin-top: 22px;" data-i18n="probeAppleHeading">Apple 智能与 Siri 原生端点 TLS 握手连通性</h3>
+        <div id="probeGrid" class="probe-grid"></div>
+
+        <div class="cli-tip-box">
+          <div>
+            <strong data-i18n="cliTipTitle">验证苹果官方准入接口 (gspe1-ssl) 判定你的国家代码</strong>
+            <p data-i18n="cliTipDesc">Apple 私有网关不带浏览器跨域头，macOS 终端运行右侧命令若直接输出 <code>US</code> 即代表准入路由已生效：</p>
+          </div>
+          <button id="copyGccCmdBtn" class="btn" type="button">复制终端验证命令</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      MIT License · Crafted by <a href="https://github.com/Kianuni" target="_blank" rel="noopener">Kianuni</a> · Companion project to <a href="https://github.com/Kianuni/Erosion-CN" target="_blank" rel="noopener">Erosion-CN</a>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast">已复制到剪贴板</div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

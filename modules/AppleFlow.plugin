@@ -1,0 +1,45 @@
+#!name = AppleFlow · Apple 智能与中文 Siri 分流
+#!desc = 零 MitM 极简分流：保障中文 Siri 与普通话来电筛选真实 IP 直连，将 Apple Intelligence PCC 与 ChatGPT/视觉智能置顶分流至美区策略组。
+#!openUrl = https://kianuni.github.io/AppleFlow/
+#!author = Kianuni[https://github.com/Kianuni/AppleFlow]
+#!homepage = https://github.com/Kianuni/AppleFlow
+#!select = 美区AI策略组, PROXY, 🇺🇸 美国节点, Apple Intelligence, AI
+#!system = ios, ipados, macos
+#!version = 1.0.0
+
+[General]
+skip-proxy = guzzoni.apple.com
+real-ip = guzzoni.apple.com, *.guzzoni.apple.com, *.siri.apple.com, dejavu.apple.com, sequoia.apple.com, *.smoot.apple.com, *.push.apple.com
+
+[Rule]
+# 1. 中文 Siri 与普通话来电筛选直连
+DOMAIN-SUFFIX, guzzoni.apple.com, DIRECT
+DOMAIN-SUFFIX, siri.apple.com, DIRECT
+DOMAIN, dejavu.apple.com, DIRECT
+DOMAIN, sequoia.apple.com, DIRECT
+DOMAIN-SUFFIX, smoot.apple.com, DIRECT
+
+# 2. Apple Intelligence PCC 隐私云计算与区域准入
+DOMAIN, gspe1-ssl.ls.apple.com, 美区AI策略组
+DOMAIN, mask-api.icloud.com, 美区AI策略组
+DOMAIN, mask.icloud.com, 美区AI策略组
+DOMAIN, mask-h2.icloud.com, 美区AI策略组
+DOMAIN, ss-cleanup-proxy-prod.us-east-1m.app.apple.com, 美区AI策略组
+DOMAIN-SUFFIX, app.apple.com, 美区AI策略组
+DOMAIN-SUFFIX, apple-relay.apple.com, 美区AI策略组
+DOMAIN-SUFFIX, apple-relay.cloudflare.com, 美区AI策略组
+DOMAIN-SUFFIX, apple-relay.fastly-edge.com, 美区AI策略组
+DOMAIN-SUFFIX, apple-relay.akamaized.net, 美区AI策略组
+DOMAIN-SUFFIX, cp4.cloudflare.com, 美区AI策略组
+
+# 3. Siri ChatGPT 扩展与视觉智能
+DOMAIN-SUFFIX, openai.com, 美区AI策略组
+DOMAIN-SUFFIX, chatgpt.com, 美区AI策略组
+DOMAIN-SUFFIX, oaistatic.com, 美区AI策略组
+DOMAIN-SUFFIX, oaiusercontent.com, 美区AI策略组
+DOMAIN, openai-api.arkoselabs.com, 美区AI策略组
+DOMAIN-SUFFIX, googleapis.com, 美区AI策略组
+DOMAIN-SUFFIX, gstatic.com, 美区AI策略组
+DOMAIN, lens.google.com, 美区AI策略组
+DOMAIN-SUFFIX, anthropic.com, 美区AI策略组
+DOMAIN-SUFFIX, claude.ai, 美区AI策略组

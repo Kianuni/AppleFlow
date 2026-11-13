@@ -1,0 +1,35 @@
+#!name=AppleFlow · Apple 智能与中文 Siri 分流
+#!desc=零 MitM 极简分流：中文 Siri 与普通话来电筛选真实 IP 直连 + Apple Intelligence PCC / ChatGPT / 视觉智能走 PROXY 美区节点。
+#!homepage=https://kianuni.github.io/AppleFlow/
+
+[General]
+skip-proxy = %APPEND% guzzoni.apple.com
+always-real-ip = %APPEND% guzzoni.apple.com, *.guzzoni.apple.com, *.siri.apple.com, dejavu.apple.com, sequoia.apple.com, *.smoot.apple.com, *.push.apple.com
+
+[Rule]
+DOMAIN-SUFFIX,guzzoni.apple.com,DIRECT
+DOMAIN-SUFFIX,siri.apple.com,DIRECT
+DOMAIN,dejavu.apple.com,DIRECT
+DOMAIN,sequoia.apple.com,DIRECT
+DOMAIN-SUFFIX,smoot.apple.com,DIRECT
+DOMAIN,gspe1-ssl.ls.apple.com,PROXY
+DOMAIN,mask-api.icloud.com,PROXY
+DOMAIN,mask.icloud.com,PROXY
+DOMAIN,mask-h2.icloud.com,PROXY
+DOMAIN,ss-cleanup-proxy-prod.us-east-1m.app.apple.com,PROXY
+DOMAIN-SUFFIX,app.apple.com,PROXY
+DOMAIN-SUFFIX,apple-relay.apple.com,PROXY
+DOMAIN-SUFFIX,apple-relay.cloudflare.com,PROXY
+DOMAIN-SUFFIX,apple-relay.fastly-edge.com,PROXY
+DOMAIN-SUFFIX,apple-relay.akamaized.net,PROXY
+DOMAIN-SUFFIX,cp4.cloudflare.com,PROXY
+DOMAIN-SUFFIX,openai.com,PROXY
+DOMAIN-SUFFIX,chatgpt.com,PROXY
+DOMAIN-SUFFIX,oaistatic.com,PROXY
+DOMAIN-SUFFIX,oaiusercontent.com,PROXY
+DOMAIN,openai-api.arkoselabs.com,PROXY
+DOMAIN-SUFFIX,googleapis.com,PROXY
+DOMAIN-SUFFIX,gstatic.com,PROXY
+DOMAIN,lens.google.com,PROXY
+DOMAIN-SUFFIX,anthropic.com,PROXY
+DOMAIN-SUFFIX,claude.ai,PROXY

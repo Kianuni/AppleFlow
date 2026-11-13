@@ -1,0 +1,46 @@
+# AppleFlow — All-in-One Combined Rules (Quantumult X)
+# Homepage: https://kianuni.github.io/AppleFlow/
+
+# 1. Siri & Mandarin Call Screening -> DIRECT
+HOST-SUFFIX,guzzoni.apple.com,DIRECT // Siri & 普通话来电筛选核心语音网关（严禁代理或 Fake-IP）
+HOST-SUFFIX,siri.apple.com,DIRECT // Siri 语音服务域名
+HOST,dejavu.apple.com,DIRECT // Siri 语音识别辅助服务
+HOST,sequoia.apple.com,DIRECT // Siri 自然语言服务
+HOST-SUFFIX,smoot.apple.com,DIRECT // Spotlight / Siri 搜索建议（切勿开启旧版 MitM）
+
+# 2. Clean APNs Push -> DIRECT
+HOST,identity.apple.com,DIRECT // Apple ID 设备身份认证直连
+HOST-SUFFIX,push.apple.com,DIRECT // APNs 系统推送通知直连
+HOST-KEYWORD,apple.com.edgekey.net,DIRECT // Apple Akamai 边缘直连
+IP-CIDR,17.249.0.0/16,DIRECT // Apple APNs IPv4 号段
+IP-CIDR,17.252.0.0/16,DIRECT // Apple APNs IPv4 号段
+IP-CIDR,17.57.144.0/22,DIRECT // Apple APNs IPv4 号段
+IP-CIDR,17.188.128.0/18,DIRECT // Apple APNs IPv4 号段
+IP-CIDR,17.188.20.0/23,DIRECT // Apple APNs IPv4 号段
+IP6-CIDR,2403:300:a42::/48,DIRECT // Apple APNs IPv6 号段
+IP6-CIDR,2403:300:a51::/48,DIRECT // Apple APNs IPv6 号段
+IP6-CIDR,2620:149:a44::/48,DIRECT // Apple APNs IPv6 号段
+IP6-CIDR,2a01:b740:a42::/48,DIRECT // Apple APNs IPv6 号段
+
+# 3. Apple Intelligence PCC & AI Extensions -> AppleAI
+HOST,gspe1-ssl.ls.apple.com,AppleAI // Apple 智能区域与定位准入校验（iOS 27.2+ 严禁开启 MitM）
+HOST,mask-api.icloud.com,AppleAI // PCC / 专用代理匿名令牌签发
+HOST,mask.icloud.com,AppleAI // PCC OHTTP 盲化网关
+HOST,mask-h2.icloud.com,AppleAI // PCC OHTTP HTTP/2 回退网关
+HOST,ss-cleanup-proxy-prod.us-east-1m.app.apple.com,AppleAI // Apple 生成式云端推理节点
+HOST-SUFFIX,app.apple.com,AppleAI // Apple 生成式云端推理服务接口
+HOST-SUFFIX,apple-relay.apple.com,AppleAI // Apple 智能 PCC 隐私云计算中继（请勿拦截 UDP 443 / QUIC）
+HOST-SUFFIX,apple-relay.cloudflare.com,AppleAI // PCC Cloudflare OHTTP 中继
+HOST-SUFFIX,apple-relay.fastly-edge.com,AppleAI // PCC Fastly OHTTP 中继
+HOST-SUFFIX,apple-relay.akamaized.net,AppleAI // PCC Akamai OHTTP 中继
+HOST-SUFFIX,cp4.cloudflare.com,AppleAI // Apple 隐私中继辅助端点
+HOST-SUFFIX,openai.com,AppleAI // Siri ChatGPT 扩展核心接口
+HOST-SUFFIX,chatgpt.com,AppleAI // Siri ChatGPT 扩展与账户登录
+HOST-SUFFIX,oaistatic.com,AppleAI // OpenAI 静态资源
+HOST-SUFFIX,oaiusercontent.com,AppleAI // ChatGPT 生图与多模态附件
+HOST,openai-api.arkoselabs.com,AppleAI // OpenAI 安全校验
+HOST-SUFFIX,googleapis.com,AppleAI // 视觉智能 Google 识图接口
+HOST-SUFFIX,gstatic.com,AppleAI // Google 识图静态资源
+HOST,lens.google.com,AppleAI // 视觉智能 Google Lens 识图
+HOST-SUFFIX,anthropic.com,AppleAI // Claude / Xcode Intelligence 扩展
+HOST-SUFFIX,claude.ai,AppleAI // Claude AI 服务

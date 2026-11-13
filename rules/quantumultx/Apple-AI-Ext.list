@@ -1,0 +1,13 @@
+# AppleFlow — Siri Extensions & Visual Intelligence (Quantumult X)
+# Homepage: https://kianuni.github.io/AppleFlow/
+
+HOST-SUFFIX,openai.com,AppleAI // Siri ChatGPT 扩展核心接口
+HOST-SUFFIX,chatgpt.com,AppleAI // Siri ChatGPT 扩展与账户登录
+HOST-SUFFIX,oaistatic.com,AppleAI // OpenAI 静态资源
+HOST-SUFFIX,oaiusercontent.com,AppleAI // ChatGPT 生图与多模态附件
+HOST,openai-api.arkoselabs.com,AppleAI // OpenAI 安全校验
+HOST-SUFFIX,googleapis.com,AppleAI // 视觉智能 Google 识图接口
+HOST-SUFFIX,gstatic.com,AppleAI // Google 识图静态资源
+HOST,lens.google.com,AppleAI // 视觉智能 Google Lens 识图
+HOST-SUFFIX,anthropic.com,AppleAI // Claude / Xcode Intelligence 扩展
+HOST-SUFFIX,claude.ai,AppleAI // Claude AI 服务

@@ -1,0 +1,48 @@
+# AppleFlow — Mihomo (Clash Meta) 覆写 / 混入模板
+# 在线自定义策略组名生成器：https://kianuni.github.io/AppleFlow/
+# 注意：请将下方 PROXY 替换为你自己的低延迟美国策略组名称（且确保节点开启 udp: true）
+
+dns:
+  fake-ip-filter:
+    - "guzzoni.apple.com"
+    - "+.guzzoni.apple.com"
+    - "+.siri.apple.com"
+    - "dejavu.apple.com"
+    - "sequoia.apple.com"
+    - "+.smoot.apple.com"
+    - "+.push.apple.com"
+    - "gspe1-ssl.ls.apple.com"
+    - "mask-api.icloud.com"
+    - "mask.icloud.com"
+    - "mask-h2.icloud.com"
+    - "+.app.apple.com"
+    - "+.apple-relay.apple.com"
+    - "+.apple-relay.cloudflare.com"
+    - "+.apple-relay.fastly-edge.com"
+    - "+.apple-relay.akamaized.net"
+
+rule-providers:
+  appleflow-siri-direct:
+    type: http
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/Kianuni/AppleFlow/main/rules/clash/Siri-Direct.yaml
+    path: ./ruleset/appleflow-siri-direct.yaml
+  appleflow-pcc:
+    type: http
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/Kianuni/AppleFlow/main/rules/clash/Apple-PCC.yaml
+    path: ./ruleset/appleflow-pcc.yaml
+  appleflow-ai-ext:
+    type: http
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/Kianuni/AppleFlow/main/rules/clash/Apple-AI-Ext.yaml
+    path: ./ruleset/appleflow-ai-ext.yaml
+
+# 请置于 GEOSITE,apple,DIRECT / GEOIP,CN,DIRECT 之前：
+rules:
+  - RULE-SET,appleflow-siri-direct,DIRECT
+  - RULE-SET,appleflow-pcc,PROXY
+  - RULE-SET,appleflow-ai-ext,PROXY
