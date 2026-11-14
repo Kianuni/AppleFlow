@@ -5,7 +5,7 @@
 #!homepage = https://github.com/Kianuni/AppleFlow
 #!select = 美区AI策略组, PROXY, 🇺🇸 美国节点, Apple Intelligence, AI
 #!system = ios, ipados, macos
-#!version = 1.0.0
+#!version = 1.0.1
 
 [General]
 skip-proxy = guzzoni.apple.com
@@ -37,11 +37,26 @@ DOMAIN-SUFFIX, cp4.cloudflare.com, 美区AI策略组
 # 3. Siri ChatGPT 扩展与视觉智能
 DOMAIN-SUFFIX, openai.com, 美区AI策略组
 DOMAIN-SUFFIX, chatgpt.com, 美区AI策略组
+DOMAIN-SUFFIX, chat.com, 美区AI策略组
+DOMAIN-SUFFIX, sora.com, 美区AI策略组
 DOMAIN-SUFFIX, oaistatic.com, 美区AI策略组
 DOMAIN-SUFFIX, oaiusercontent.com, 美区AI策略组
+DOMAIN-SUFFIX, oaistatsig.com, 美区AI策略组
+DOMAIN-SUFFIX, openai.com.cdn.cloudflare.net, 美区AI策略组
 DOMAIN, openai-api.arkoselabs.com, 美区AI策略组
-DOMAIN-SUFFIX, googleapis.com, 美区AI策略组
-DOMAIN-SUFFIX, gstatic.com, 美区AI策略组
+DOMAIN-SUFFIX, chatgpt.livekit.cloud, 美区AI策略组
+DOMAIN-SUFFIX, host.livekit.cloud, 美区AI策略组
+DOMAIN-SUFFIX, turn.livekit.cloud, 美区AI策略组
 DOMAIN, lens.google.com, 美区AI策略组
+DOMAIN-SUFFIX, gemini.google.com, 美区AI策略组
+DOMAIN, gemini.gstatic.com, 美区AI策略组
+DOMAIN, generativelanguage.googleapis.com, 美区AI策略组
+DOMAIN, proactivebackend-pa.googleapis.com, 美区AI策略组
+DOMAIN, robinfrontend-pa.googleapis.com, 美区AI策略组
+DOMAIN, aistudio.google.com, 美区AI策略组
+DOMAIN, alkalimakersuite-pa.clients6.google.com, 美区AI策略组
+DOMAIN-SUFFIX, deepmind.google, 美区AI策略组
 DOMAIN-SUFFIX, anthropic.com, 美区AI策略组
 DOMAIN-SUFFIX, claude.ai, 美区AI策略组
+DOMAIN-SUFFIX, claude.com, 美区AI策略组
+DOMAIN-SUFFIX, claudeusercontent.com, 美区AI策略组

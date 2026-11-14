@@ -1,7 +1,7 @@
 # AppleFlow — Clean APNs & Identity Direct Rules
 # 纯净版苹果推送与身份直连规则（已剔除会误伤第三方网站的 akadns.net）
 # Homepage: https://kianuni.github.io/AppleFlow/
-# Version: 1.0.0
+# Version: 1.0.1
 
 DOMAIN,identity.apple.com // Apple ID 设备身份认证直连
 DOMAIN-SUFFIX,push.apple.com // APNs 系统推送通知直连

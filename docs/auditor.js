@@ -4,7 +4,7 @@
  */
 
 export const APPLEFLOW_META = {
-  version: "1.0.0",
+  version: "1.0.1",
   repoUrl: "https://github.com/Kianuni/AppleFlow",
   rawBase: "https://raw.githubusercontent.com/Kianuni/AppleFlow/main",
   pagesUrl: "https://kianuni.github.io/AppleFlow/",
@@ -34,16 +34,34 @@ export const RULE_BUNDLES = {
     { type: "DOMAIN-SUFFIX", value: "cp4.cloudflare.com", noteZh: "Apple 隐私中继辅助端点", noteEn: "Apple relay helper endpoint" },
   ],
   aiExt: [
-    { type: "DOMAIN-SUFFIX", value: "openai.com", noteZh: "Siri ChatGPT 扩展接口", noteEn: "Siri ChatGPT extension API" },
-    { type: "DOMAIN-SUFFIX", value: "chatgpt.com", noteZh: "ChatGPT 账号与多模态", noteEn: "ChatGPT auth & multimodal" },
+    // OpenAI / ChatGPT / Advanced Voice / Sora
+    { type: "DOMAIN-SUFFIX", value: "openai.com", noteZh: "Siri ChatGPT 扩展核心接口", noteEn: "Siri ChatGPT extension API" },
+    { type: "DOMAIN-SUFFIX", value: "chatgpt.com", noteZh: "Siri ChatGPT 扩展与账户登录", noteEn: "Siri ChatGPT auth & multimodal" },
+    { type: "DOMAIN-SUFFIX", value: "chat.com", noteZh: "ChatGPT 官方短域名", noteEn: "ChatGPT official short domain" },
+    { type: "DOMAIN-SUFFIX", value: "sora.com", noteZh: "OpenAI Sora 视频生成服务", noteEn: "OpenAI Sora video generation" },
     { type: "DOMAIN-SUFFIX", value: "oaistatic.com", noteZh: "OpenAI 静态资源", noteEn: "OpenAI static assets" },
-    { type: "DOMAIN-SUFFIX", value: "oaiusercontent.com", noteZh: "ChatGPT 图片生成附件", noteEn: "ChatGPT image assets" },
-    { type: "DOMAIN", value: "openai-api.arkoselabs.com", noteZh: "OpenAI 安全验证", noteEn: "OpenAI verification" },
-    { type: "DOMAIN-SUFFIX", value: "googleapis.com", noteZh: "视觉智能 Google 识图接口", noteEn: "Visual Intelligence Google Lookup" },
-    { type: "DOMAIN-SUFFIX", value: "gstatic.com", noteZh: "Google 识图静态资源", noteEn: "Google static assets" },
-    { type: "DOMAIN", value: "lens.google.com", noteZh: "Google Lens 视觉识图", noteEn: "Google Lens endpoint" },
-    { type: "DOMAIN-SUFFIX", value: "anthropic.com", noteZh: "Claude / Xcode Intelligence", noteEn: "Anthropic / Xcode Intelligence" },
-    { type: "DOMAIN-SUFFIX", value: "claude.ai", noteZh: "Claude 服务", noteEn: "Claude web/API" },
+    { type: "DOMAIN-SUFFIX", value: "oaiusercontent.com", noteZh: "ChatGPT 生图与多模态附件", noteEn: "ChatGPT image & multimodal assets" },
+    { type: "DOMAIN-SUFFIX", value: "oaistatsig.com", noteZh: "OpenAI 客户端特性开关校验", noteEn: "OpenAI client feature flags" },
+    { type: "DOMAIN-SUFFIX", value: "openai.com.cdn.cloudflare.net", noteZh: "OpenAI Cloudflare 边缘加速", noteEn: "OpenAI Cloudflare edge CDN" },
+    { type: "DOMAIN", value: "openai-api.arkoselabs.com", noteZh: "OpenAI 安全校验", noteEn: "OpenAI verification" },
+    { type: "DOMAIN-SUFFIX", value: "chatgpt.livekit.cloud", noteZh: "ChatGPT 高级实时语音 WebRTC 信令", noteEn: "ChatGPT Advanced Voice LiveKit signaling" },
+    { type: "DOMAIN-SUFFIX", value: "host.livekit.cloud", noteZh: "ChatGPT 高级实时语音媒体节点", noteEn: "ChatGPT Advanced Voice LiveKit media" },
+    { type: "DOMAIN-SUFFIX", value: "turn.livekit.cloud", noteZh: "ChatGPT 高级实时语音 TURN 中继", noteEn: "ChatGPT Advanced Voice LiveKit TURN relay" },
+    // Google Visual Intelligence (Lens) & US-Locked Gemini Core
+    { type: "DOMAIN", value: "lens.google.com", noteZh: "视觉智能 Google Lens 识图入口", noteEn: "Visual Intelligence Google Lens endpoint" },
+    { type: "DOMAIN-SUFFIX", value: "gemini.google.com", noteZh: "Google Gemini 网页与客户端", noteEn: "Google Gemini web & app" },
+    { type: "DOMAIN", value: "gemini.gstatic.com", noteZh: "Google Gemini 专用静态资源", noteEn: "Google Gemini dedicated static assets" },
+    { type: "DOMAIN", value: "generativelanguage.googleapis.com", noteZh: "Google Gemini 生成式 API", noteEn: "Google Gemini Generative Language API" },
+    { type: "DOMAIN", value: "proactivebackend-pa.googleapis.com", noteZh: "Google Gemini App 后端接口", noteEn: "Google Gemini app backend API" },
+    { type: "DOMAIN", value: "robinfrontend-pa.googleapis.com", noteZh: "Google Gemini 助手前端接口", noteEn: "Google Gemini assistant frontend API" },
+    { type: "DOMAIN", value: "aistudio.google.com", noteZh: "Google AI Studio 开发台", noteEn: "Google AI Studio" },
+    { type: "DOMAIN", value: "alkalimakersuite-pa.clients6.google.com", noteZh: "Google AI Studio 核心接口", noteEn: "Google AI Studio core API" },
+    { type: "DOMAIN-SUFFIX", value: "deepmind.google", noteZh: "Google DeepMind 服务", noteEn: "Google DeepMind" },
+    // Anthropic / Claude & Artifacts Sandbox
+    { type: "DOMAIN-SUFFIX", value: "anthropic.com", noteZh: "Claude / Xcode Intelligence 扩展", noteEn: "Anthropic / Xcode Intelligence" },
+    { type: "DOMAIN-SUFFIX", value: "claude.ai", noteZh: "Claude AI 服务", noteEn: "Claude web/API" },
+    { type: "DOMAIN-SUFFIX", value: "claude.com", noteZh: "Claude 官方主域", noteEn: "Claude official domain" },
+    { type: "DOMAIN-SUFFIX", value: "claudeusercontent.com", noteZh: "Claude Artifacts 预览沙盒与附件渲染", noteEn: "Claude Artifacts sandbox & attachments" },
   ],
   apnsDirect: [
     { type: "DOMAIN", value: "identity.apple.com", noteZh: "Apple ID 身份认证直连", noteEn: "Apple ID identity direct" },
@@ -54,6 +72,10 @@ export const RULE_BUNDLES = {
     { type: "IP-CIDR", value: "17.57.144.0/22", noteZh: "APNs IPv4", noteEn: "APNs IPv4" },
     { type: "IP-CIDR", value: "17.188.128.0/18", noteZh: "APNs IPv4", noteEn: "APNs IPv4" },
     { type: "IP-CIDR", value: "17.188.20.0/23", noteZh: "APNs IPv4", noteEn: "APNs IPv4" },
+    { type: "IP-CIDR6", value: "2403:300:a42::/48", noteZh: "Apple APNs IPv6 号段", noteEn: "APNs IPv6" },
+    { type: "IP-CIDR6", value: "2403:300:a51::/48", noteZh: "Apple APNs IPv6 号段", noteEn: "APNs IPv6" },
+    { type: "IP-CIDR6", value: "2620:149:a44::/48", noteZh: "Apple APNs IPv6 号段", noteEn: "APNs IPv6" },
+    { type: "IP-CIDR6", value: "2a01:b740:a42::/48", noteZh: "Apple APNs IPv6 号段", noteEn: "APNs IPv6" },
   ],
 };
 
@@ -1069,12 +1091,12 @@ export const STANDALONE_RULESETS = [
     id: "Apple-AI-Ext",
     bundleKey: "aiExt",
     routeType: "proxy",
-    titleZh: "Apple-AI-Ext · ChatGPT / 视觉智能 / Claude 扩展",
-    titleEn: "Apple-AI-Ext · ChatGPT, Visual Lookup & Claude",
+    titleZh: "Apple-AI-Ext · ChatGPT / 视觉智能 / Gemini / Claude 扩展",
+    titleEn: "Apple-AI-Ext · ChatGPT, Visual Lookup, Gemini & Claude",
     badgeZh: "走美区 AI 策略",
     badgeEn: "Route to US Proxy",
-    descZh: "Siri 集成 ChatGPT、相机控制 Visual Intelligence Google 识图以及 Xcode / Claude 智能扩展所需域名。",
-    descEn: "Covers Siri ChatGPT integration, Visual Intelligence Google Lens lookup, and Anthropic Claude.",
+    descZh: "涵盖 Siri ChatGPT（含 App 高级实时语音 livekit 与 Sora）、视觉智能 Google Lens、锁美区的 Gemini 核心接口以及 Claude（含 claudeusercontent Artifacts 沙盒），已剔除宽泛 googleapis/gstatic 防误伤日常 Google 流量。",
+    descEn: "Covers Siri ChatGPT (incl. Advanced Voice livekit & Sora), Visual Intelligence Lens, US-locked Gemini core APIs, and Claude (incl. claudeusercontent Artifacts), without overbroad googleapis/gstatic rules.",
   },
   {
     id: "Apple-APNs-Direct",
@@ -1089,6 +1111,9 @@ export const STANDALONE_RULESETS = [
   },
 ];
 
+const AI_ALL_COUNT = RULE_BUNDLES.applePCC.length + RULE_BUNDLES.aiExt.length;
+const QX_ALL_COUNT = RULE_BUNDLES.siriDirect.length + RULE_BUNDLES.apnsDirect.length + AI_ALL_COUNT;
+
 export const COMBINED_RULESET_CARD = {
   id: "Apple-AI-All",
   qxAllId: "AppleFlow-All",
@@ -1098,10 +1123,10 @@ export const COMBINED_RULESET_CARD = {
   qxTitleEn: "AppleFlow-All · Complete All-in-One Filter",
   badgeZh: "合集 · 一条搞定",
   badgeEn: "All-in-One Bundle",
-  descZh: "已合并上方「Apple-PCC + Apple-AI-Ext」全部 23 条美区域名（PCC 隐私云计算、相册高质量消除、ChatGPT、视觉识图、Claude），指向美区策略组即可；中文 Siri 仍需保留上方 Siri-Direct 直连。",
-  descEn: "Combines all 23 US proxy rules (Apple-PCC + High-Quality Clean Up + Apple-AI-Ext) into a single subscription URL. Pair with Siri-Direct above for Mandarin Siri.",
-  qxDescZh: "单文件完整包含 Siri 直连、APNs 直连、Apple PCC（含相册高质量消除）与全部外部 AI 扩展（共 36 条，已内置 DIRECT 与 AppleAI 分流标签），远程引用这一条即可。",
-  qxDescEn: "Single file containing all 36 rules with built-in DIRECT and AppleAI policy tags.",
+  descZh: `已合并上方「Apple-PCC + Apple-AI-Ext」全部 ${AI_ALL_COUNT} 条美区域名（PCC 隐私云计算、相册高质量消除、ChatGPT 含实时语音/Sora、Lens 与 Gemini、Claude 含 Artifacts 沙盒），指向美区策略组即可；中文 Siri 仍需保留上方 Siri-Direct 直连。`,
+  descEn: `Combines all ${AI_ALL_COUNT} US proxy rules (Apple-PCC + High-Quality Clean Up + Apple-AI-Ext incl. ChatGPT/Voice/Sora, Lens/Gemini, Claude/Artifacts) into a single subscription URL. Pair with Siri-Direct above for Mandarin Siri.`,
+  qxDescZh: `单文件完整包含 Siri 直连、APNs 直连、Apple PCC（含相册高质量消除）与全部外部 AI 扩展（共 ${QX_ALL_COUNT} 条，已内置 DIRECT 与 AppleAI 分流标签），远程引用这一条即可。`,
+  qxDescEn: `Single file containing all ${QX_ALL_COUNT} rules with built-in DIRECT and AppleAI policy tags.`,
 };
 
 export function getStandaloneRulesetUrl(format, rulesetId) {
@@ -1180,7 +1205,7 @@ export function renderStandaloneRulesetContent(format, rulesetId, lang = "zh") {
     const domains = rules.filter((r) => r.type === "DOMAIN").map((r) => r.value);
     const suffixes = rules.filter((r) => r.type === "DOMAIN-SUFFIX").map((r) => r.value);
     const keywords = rules.filter((r) => r.type === "DOMAIN-KEYWORD").map((r) => r.value);
-    const cidrs = rules.filter((r) => r.type === "IP-CIDR").map((r) => r.value);
+    const cidrs = rules.filter((r) => r.type === "IP-CIDR" || r.type === "IP-CIDR6").map((r) => r.value);
     if (domains.length) ruleObj.domain = domains;
     if (suffixes.length) ruleObj.domain_suffix = suffixes;
     if (keywords.length) ruleObj.domain_keyword = keywords;

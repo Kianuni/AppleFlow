@@ -4,17 +4,32 @@
     {
       "domain": [
         "openai-api.arkoselabs.com",
-        "lens.google.com"
+        "lens.google.com",
+        "gemini.gstatic.com",
+        "generativelanguage.googleapis.com",
+        "proactivebackend-pa.googleapis.com",
+        "robinfrontend-pa.googleapis.com",
+        "aistudio.google.com",
+        "alkalimakersuite-pa.clients6.google.com"
       ],
       "domain_suffix": [
         "openai.com",
         "chatgpt.com",
+        "chat.com",
+        "sora.com",
         "oaistatic.com",
         "oaiusercontent.com",
-        "googleapis.com",
-        "gstatic.com",
+        "oaistatsig.com",
+        "openai.com.cdn.cloudflare.net",
+        "chatgpt.livekit.cloud",
+        "host.livekit.cloud",
+        "turn.livekit.cloud",
+        "gemini.google.com",
+        "deepmind.google",
         "anthropic.com",
-        "claude.ai"
+        "claude.ai",
+        "claude.com",
+        "claudeusercontent.com"
       ]
     }
   ]

@@ -16,11 +16,26 @@ HOST-SUFFIX,apple-relay.akamaized.net,AppleAI // PCC Akamai OHTTP 中继
 HOST-SUFFIX,cp4.cloudflare.com,AppleAI // Apple 隐私中继辅助端点
 HOST-SUFFIX,openai.com,AppleAI // Siri ChatGPT 扩展核心接口
 HOST-SUFFIX,chatgpt.com,AppleAI // Siri ChatGPT 扩展与账户登录
+HOST-SUFFIX,chat.com,AppleAI // ChatGPT 官方短域名
+HOST-SUFFIX,sora.com,AppleAI // OpenAI Sora 视频生成服务
 HOST-SUFFIX,oaistatic.com,AppleAI // OpenAI 静态资源
 HOST-SUFFIX,oaiusercontent.com,AppleAI // ChatGPT 生图与多模态附件
+HOST-SUFFIX,oaistatsig.com,AppleAI // OpenAI 客户端特性开关校验
+HOST-SUFFIX,openai.com.cdn.cloudflare.net,AppleAI // OpenAI Cloudflare 边缘加速
 HOST,openai-api.arkoselabs.com,AppleAI // OpenAI 安全校验
-HOST-SUFFIX,googleapis.com,AppleAI // 视觉智能 Google 识图接口
-HOST-SUFFIX,gstatic.com,AppleAI // Google 识图静态资源
-HOST,lens.google.com,AppleAI // 视觉智能 Google Lens 识图
+HOST-SUFFIX,chatgpt.livekit.cloud,AppleAI // ChatGPT 高级实时语音 WebRTC 信令
+HOST-SUFFIX,host.livekit.cloud,AppleAI // ChatGPT 高级实时语音媒体节点
+HOST-SUFFIX,turn.livekit.cloud,AppleAI // ChatGPT 高级实时语音 TURN 中继
+HOST,lens.google.com,AppleAI // 视觉智能 Google Lens 识图入口
+HOST-SUFFIX,gemini.google.com,AppleAI // Google Gemini 网页与客户端
+HOST,gemini.gstatic.com,AppleAI // Google Gemini 专用静态资源
+HOST,generativelanguage.googleapis.com,AppleAI // Google Gemini 生成式 API
+HOST,proactivebackend-pa.googleapis.com,AppleAI // Google Gemini App 后端接口
+HOST,robinfrontend-pa.googleapis.com,AppleAI // Google Gemini 助手前端接口
+HOST,aistudio.google.com,AppleAI // Google AI Studio 开发台
+HOST,alkalimakersuite-pa.clients6.google.com,AppleAI // Google AI Studio 核心接口
+HOST-SUFFIX,deepmind.google,AppleAI // Google DeepMind 服务
 HOST-SUFFIX,anthropic.com,AppleAI // Claude / Xcode Intelligence 扩展
 HOST-SUFFIX,claude.ai,AppleAI // Claude AI 服务
+HOST-SUFFIX,claude.com,AppleAI // Claude 官方主域
+HOST-SUFFIX,claudeusercontent.com,AppleAI // Claude Artifacts 预览沙盒与附件渲染

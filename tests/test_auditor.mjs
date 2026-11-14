@@ -250,4 +250,34 @@ rules:
   assert.equal(auditConfig(scrubConfigSecrets(clashUdpTrue).text).score, 100);
 }
 
+// 10. Apple-AI-Ext includes full OpenAI/Voice/Sora, Claude/Artifacts & Gemini/Lens without broad googleapis/gstatic
+{
+  const requiredExtDomains = [
+    "chatgpt.livekit.cloud",
+    "host.livekit.cloud",
+    "turn.livekit.cloud",
+    "oaistatsig.com",
+    "chat.com",
+    "sora.com",
+    "claudeusercontent.com",
+    "claude.com",
+    "lens.google.com",
+    "gemini.google.com",
+    "generativelanguage.googleapis.com",
+  ];
+  const webSurgeExt = renderStandaloneRulesetContent("surge", "Apple-AI-Ext", "zh").content;
+  const fileSurgeExt = fs.readFileSync(path.join(rootDir, "rules/surge/Apple-AI-Ext.list"), "utf8");
+
+  for (const [label, content] of [
+    ["web Apple-AI-Ext", webSurgeExt],
+    ["file rules/surge/Apple-AI-Ext.list", fileSurgeExt],
+  ]) {
+    for (const domain of requiredExtDomains) {
+      assert(content.includes(domain), `${label} missing ${domain}`);
+    }
+    assert(!content.includes("DOMAIN-SUFFIX,googleapis.com"), `${label} should omit broad googleapis.com suffix`);
+    assert(!content.includes("DOMAIN-SUFFIX,gstatic.com"), `${label} should omit broad gstatic.com suffix`);
+  }
+}
+
 console.log("PASS: All AppleFlow auditor, privacy scrubber & ruleset unit tests passed.");

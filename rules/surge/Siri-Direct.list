@@ -1,7 +1,7 @@
 # AppleFlow — Siri & Mandarin Call Screening Direct Rules
 # 必须置于代理规则与 Apple 兜底规则之前，并配合 skip-proxy + always-real-ip 使用
 # Homepage: https://kianuni.github.io/AppleFlow/
-# Version: 1.0.0
+# Version: 1.0.1
 
 DOMAIN-SUFFIX,guzzoni.apple.com // Siri & 普通话来电筛选核心语音网关（严禁代理或 Fake-IP）
 DOMAIN-SUFFIX,siri.apple.com // Siri 语音服务域名

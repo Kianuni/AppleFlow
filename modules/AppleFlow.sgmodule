@@ -3,7 +3,7 @@
 #!author=Kianuni[https://github.com/Kianuni/AppleFlow]
 #!homepage=https://kianuni.github.io/AppleFlow/
 #!category= AppleFlow
-#!version=1.0.0
+#!version=1.0.1
 #!arguments=Policy:PROXY
 #!arguments-desc=Policy：填写你配置中的低延迟美国策略组或节点名称（例如 PROXY、🇺🇸 美国节点、📟 智能助理、AI）。请确保该节点支持 UDP / QUIC 且勿对 apple-relay 启用 REJECT。
 

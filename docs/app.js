@@ -7,7 +7,7 @@ import {
   getStandaloneRulesetUrl,
   renderStandaloneRulesetContent,
   scrubConfigSecrets,
-} from "./auditor.js?v=1.0.3";
+} from "./auditor.js?v=1.0.4";
 
 const state = {
   lang: "zh",
@@ -248,8 +248,8 @@ const CLIENT_MODULES = {
       nameEn: "AppleFlow Full Module (Recommended)",
       badgeZh: "支持模块参数改策略名",
       badgeEn: "Supports Module Argument",
-      descZh: "包含中文 Siri 真实 IP 直连护栏 + Apple PCC 隐私云计算与相册高质量消除 + Siri ChatGPT / 视觉智能识图。安装后可在 Surge 模块参数 Policy 中填入你的美区策略组名（默认 PROXY）。",
-      descEn: "Includes Mandarin Siri real-IP direct guardrail + Apple PCC & Photos High-Quality Clean Up + ChatGPT / Visual Intelligence. Customize Policy argument directly inside Surge.",
+      descZh: "包含中文 Siri 真实 IP 直连护栏 + Apple PCC 隐私云计算与相册高质量消除 + ChatGPT（含语音/Sora）/ Gemini / Claude（含 Artifacts）/ 视觉识图。安装后可在 Surge 模块参数 Policy 中填入你的美区策略组名（默认 PROXY）。",
+      descEn: "Includes Mandarin Siri real-IP direct guardrail + Apple PCC & Photos High-Quality Clean Up + ChatGPT (incl. Voice/Sora), Gemini, Claude Artifacts & Visual Intelligence. Customize Policy argument directly inside Surge.",
       file: "AppleFlow-Full.sgmodule",
       uriPrefix: "surge:///install-module?url=",
       installZh: "一键安装到 Surge",

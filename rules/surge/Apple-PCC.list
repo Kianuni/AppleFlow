@@ -1,7 +1,7 @@
 # AppleFlow — Apple Intelligence Private Cloud Compute (PCC)
 # 必须置于 Apple_All / icloud.com 直连规则之前，走支持 UDP/QUIC 的低延迟美区策略组
 # Homepage: https://kianuni.github.io/AppleFlow/
-# Version: 1.0.0
+# Version: 1.0.1
 
 DOMAIN,gspe1-ssl.ls.apple.com // Apple 智能区域与定位准入校验（iOS 27.2+ 严禁开启 MitM）
 DOMAIN-SUFFIX,issuer.apple.com // PCC 盲签名令牌签发（inference / waitlist，严禁直连泄漏 CN IP）
