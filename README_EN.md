@@ -8,6 +8,7 @@
 <p align="center">
   <a href="https://kianuni.github.io/AppleFlow/"><strong>Open Interactive Web Studio & Config Doctor</strong></a> ·
   <a href="README.md">简体中文</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
   <a href="https://github.com/Kianuni/Erosion-CN">Erosion-CN</a>
 </p>
 

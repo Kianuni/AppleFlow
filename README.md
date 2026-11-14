@@ -8,6 +8,7 @@
 <p align="center">
   <a href="https://kianuni.github.io/AppleFlow/"><strong>打开在线工作台（模块安装 · 规则集 · 本地脱敏体检 · 出口探针）</strong></a> ·
   <a href="README_EN.md">English</a> ·
+  <a href="CHANGELOG.md">更新日志</a> ·
   <a href="https://github.com/Kianuni/Erosion-CN">Erosion-CN (国行解锁配套工具)</a>
 </p>
 
