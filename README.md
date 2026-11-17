@@ -9,7 +9,8 @@
   <a href="https://kianuni.github.io/AppleFlow/"><strong>打开在线工作台（模块安装 · 规则集 · 本地脱敏体检 · 出口探针）</strong></a> ·
   <a href="README_EN.md">English</a> ·
   <a href="CHANGELOG.md">更新日志</a> ·
-  <a href="https://github.com/Kianuni/Erosion-CN">Erosion-CN (国行解锁配套工具)</a>
+  <a href="https://github.com/Kianuni/Erosion-CN">Erosion-CN (国行解锁配套工具)</a> ·
+  <a href="https://github.com/Kianuni/AppleLens">AppleLens (macOS 观测与排障台)</a>
 </p>
 
 ---
@@ -80,6 +81,22 @@
 2. **确认美区节点已开启 UDP / QUIC 转发**：PCC OHTTP 强依赖 UDP 443 (QUIC)，请确认节点服务端防火墙已放行 UDP 端口，请求日志中无 `QUIC-BLOCK`（`↓ 0 B`）。
 3. **改完规则后重启一次手机，避免连续狂点重试**：此前若因漏分流触发过 `Code=32033` 或 `Code=1009` 退避，`privatecloudcomputed` 会在内存缓存冷却状态——**关机重启一次手机**即可清空本地缓存；若因短时间高频使用触发苹果服务端频率配额，停手等待数小时自动恢复即可。
 4. **关于国行设备在 `iOS 27.3 beta 1` 下的限制**：`27.3 beta 1` 新增了本地硬件机型码非缓存校验（`Eligibility returned no CN region policy on a CH region code device`），发网前即在本地拦截，需保持在 `iOS 27.0 – 27.2.1` 或等待苹果后续测试版调整。
+
+---
+
+## 协同生态 · Enable · Route · Observe
+
+**AppleFlow** 与 **[Erosion-CN](https://github.com/Kianuni/Erosion-CN)**、**[AppleLens](https://github.com/Kianuni/AppleLens)** 共同组成面向 Apple Intelligence 的开源协同生态，打通「**设备准入 → 零 MitM 分流 → 观测与排障**」完整链路：
+
+| 阶段 | 项目 | 核心定位 | 解决什么问题 |
+| :--- | :--- | :--- | :--- |
+| **1. 解锁与底层基线** | **[Erosion-CN](https://github.com/Kianuni/Erosion-CN)** | iOS / iPadOS 系统配置与 `MobileGestalt` 研究工具箱 | 在支持的系统版本上安全解锁国行（`CH/A`）Apple Intelligence、eSIM、FaceTime 音频，并提供防白苹果写入校验与双金库一键还原 |
+| **2. 零 MitM 极简分流** | **AppleFlow** *(本项目)* | 零 HTTPS 解密的 Apple 智能、PCC 与中文 Siri 分流方案 + [在线配置体检台](https://kianuni.github.io/AppleFlow/) | 保证中文 Siri（`guzzoni.apple.com`）Real-IP 直连不报错，同时将盲签名令牌域、PCC 隐私中继与第三方 AI 扩展精准分流至支持 UDP/QUIC 的美区节点 |
+| **3. 可观测性与排障解读** | **[AppleLens](https://github.com/Kianuni/AppleLens)** | macOS 原生菜单栏雷达 + 工作台 + CLI 只读诊断套件 | 实时观测端侧 / Apple PCC / 外部大模型外连动态，USB 直连 iPhone 翻译常见故障日志，实测 4 路出口与 QUIC/证书防劫持，并离线解读 `Apple_Intelligence_Report.json` |
+
+```text
+  [1. Erosion-CN] 设备端底层准入 ──▶ [2. AppleFlow] 零 MitM 精准分流 ──▶ [3. AppleLens] macOS 观测 · 探针 · 报告解读
+```
 
 ---
 
