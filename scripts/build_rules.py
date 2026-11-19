@@ -246,12 +246,12 @@ def render_surge_module(include_ext: bool) -> str:
 def render_loon_plugin() -> str:
     lines = [
         "#!name = AppleFlow · Apple 智能与中文 Siri 分流",
-        "#!desc = 零 MitM 极简分流：保障中文 Siri 与普通话来电筛选真实 IP 直连，将 Apple Intelligence PCC 与 ChatGPT/视觉智能置顶分流至美区策略组。",
+        "#!desc = 零 MitM 极简分流：保障中文 Siri 与普通话来电筛选真实 IP 直连，将 Apple Intelligence PCC 与 ChatGPT/视觉智能置顶分流至 PROXY（导入后请在 Loon 插件配置页「策略选择」中绑定你的低延迟美国策略组）。",
         f"#!openUrl = {HOMEPAGE}",
         f"#!author = Kianuni[{REPO_URL}]",
         f"#!homepage = {REPO_URL}",
-        "#!select = 美区AI策略组, PROXY, 🇺🇸 美国节点, Apple Intelligence, AI",
-        "#!system = ios, ipados, macos",
+        "#!system = iOS, iPadOS, macOS",
+        "#!date = 2026-11-19",
         f"#!version = {VERSION}",
         "",
         "[General]",
@@ -264,13 +264,13 @@ def render_loon_plugin() -> str:
     for rtype, val, _ in SIRI_DIRECT_RULES:
         lines.append(f"{rtype}, {val}, DIRECT")
     lines.append("")
-    lines.append("# 2. Apple Intelligence PCC 隐私云计算与区域准入")
+    lines.append("# 2. Apple Intelligence PCC 隐私云计算与区域准入（Loon 插件规则通过 PROXY 自动关联插件页所选策略组）")
     for rtype, val, _ in APPLE_PCC_RULES:
-        lines.append(f"{rtype}, {val}, 美区AI策略组")
+        lines.append(f"{rtype}, {val}, PROXY")
     lines.append("")
     lines.append("# 3. Siri ChatGPT 扩展与视觉智能")
     for rtype, val, _ in APPLE_AI_EXT_RULES:
-        lines.append(f"{rtype}, {val}, 美区AI策略组")
+        lines.append(f"{rtype}, {val}, PROXY")
     return "\n".join(lines) + "\n"
 
 

@@ -1,10 +1,10 @@
 #!name = AppleFlow · Apple 智能与中文 Siri 分流
-#!desc = 零 MitM 极简分流：保障中文 Siri 与普通话来电筛选真实 IP 直连，将 Apple Intelligence PCC 与 ChatGPT/视觉智能置顶分流至美区策略组。
+#!desc = 零 MitM 极简分流：保障中文 Siri 与普通话来电筛选真实 IP 直连，将 Apple Intelligence PCC 与 ChatGPT/视觉智能置顶分流至 PROXY（导入后请在 Loon 插件配置页「策略选择」中绑定你的低延迟美国策略组）。
 #!openUrl = https://kianuni.github.io/AppleFlow/
 #!author = Kianuni[https://github.com/Kianuni/AppleFlow]
 #!homepage = https://github.com/Kianuni/AppleFlow
-#!select = 美区AI策略组, PROXY, 🇺🇸 美国节点, Apple Intelligence, AI
-#!system = ios, ipados, macos
+#!system = iOS, iPadOS, macOS
+#!date = 2026-11-19
 #!version = 1.0.1
 
 [General]
@@ -19,44 +19,44 @@ DOMAIN, dejavu.apple.com, DIRECT
 DOMAIN, sequoia.apple.com, DIRECT
 DOMAIN-SUFFIX, smoot.apple.com, DIRECT
 
-# 2. Apple Intelligence PCC 隐私云计算与区域准入
-DOMAIN, gspe1-ssl.ls.apple.com, 美区AI策略组
-DOMAIN-SUFFIX, issuer.apple.com, 美区AI策略组
-DOMAIN-SUFFIX, ropes.apple.com, 美区AI策略组
-DOMAIN, mask-api.icloud.com, 美区AI策略组
-DOMAIN, mask.icloud.com, 美区AI策略组
-DOMAIN, mask-h2.icloud.com, 美区AI策略组
-DOMAIN, ss-cleanup-proxy-prod.us-east-1m.app.apple.com, 美区AI策略组
-DOMAIN-SUFFIX, app.apple.com, 美区AI策略组
-DOMAIN-SUFFIX, apple-relay.apple.com, 美区AI策略组
-DOMAIN-SUFFIX, apple-relay.cloudflare.com, 美区AI策略组
-DOMAIN-SUFFIX, apple-relay.fastly-edge.com, 美区AI策略组
-DOMAIN-SUFFIX, apple-relay.akamaized.net, 美区AI策略组
-DOMAIN-SUFFIX, cp4.cloudflare.com, 美区AI策略组
+# 2. Apple Intelligence PCC 隐私云计算与区域准入（Loon 插件规则通过 PROXY 自动关联插件页所选策略组）
+DOMAIN, gspe1-ssl.ls.apple.com, PROXY
+DOMAIN-SUFFIX, issuer.apple.com, PROXY
+DOMAIN-SUFFIX, ropes.apple.com, PROXY
+DOMAIN, mask-api.icloud.com, PROXY
+DOMAIN, mask.icloud.com, PROXY
+DOMAIN, mask-h2.icloud.com, PROXY
+DOMAIN, ss-cleanup-proxy-prod.us-east-1m.app.apple.com, PROXY
+DOMAIN-SUFFIX, app.apple.com, PROXY
+DOMAIN-SUFFIX, apple-relay.apple.com, PROXY
+DOMAIN-SUFFIX, apple-relay.cloudflare.com, PROXY
+DOMAIN-SUFFIX, apple-relay.fastly-edge.com, PROXY
+DOMAIN-SUFFIX, apple-relay.akamaized.net, PROXY
+DOMAIN-SUFFIX, cp4.cloudflare.com, PROXY
 
 # 3. Siri ChatGPT 扩展与视觉智能
-DOMAIN-SUFFIX, openai.com, 美区AI策略组
-DOMAIN-SUFFIX, chatgpt.com, 美区AI策略组
-DOMAIN-SUFFIX, chat.com, 美区AI策略组
-DOMAIN-SUFFIX, sora.com, 美区AI策略组
-DOMAIN-SUFFIX, oaistatic.com, 美区AI策略组
-DOMAIN-SUFFIX, oaiusercontent.com, 美区AI策略组
-DOMAIN-SUFFIX, oaistatsig.com, 美区AI策略组
-DOMAIN-SUFFIX, openai.com.cdn.cloudflare.net, 美区AI策略组
-DOMAIN, openai-api.arkoselabs.com, 美区AI策略组
-DOMAIN-SUFFIX, chatgpt.livekit.cloud, 美区AI策略组
-DOMAIN-SUFFIX, host.livekit.cloud, 美区AI策略组
-DOMAIN-SUFFIX, turn.livekit.cloud, 美区AI策略组
-DOMAIN, lens.google.com, 美区AI策略组
-DOMAIN-SUFFIX, gemini.google.com, 美区AI策略组
-DOMAIN, gemini.gstatic.com, 美区AI策略组
-DOMAIN, generativelanguage.googleapis.com, 美区AI策略组
-DOMAIN, proactivebackend-pa.googleapis.com, 美区AI策略组
-DOMAIN, robinfrontend-pa.googleapis.com, 美区AI策略组
-DOMAIN, aistudio.google.com, 美区AI策略组
-DOMAIN, alkalimakersuite-pa.clients6.google.com, 美区AI策略组
-DOMAIN-SUFFIX, deepmind.google, 美区AI策略组
-DOMAIN-SUFFIX, anthropic.com, 美区AI策略组
-DOMAIN-SUFFIX, claude.ai, 美区AI策略组
-DOMAIN-SUFFIX, claude.com, 美区AI策略组
-DOMAIN-SUFFIX, claudeusercontent.com, 美区AI策略组
+DOMAIN-SUFFIX, openai.com, PROXY
+DOMAIN-SUFFIX, chatgpt.com, PROXY
+DOMAIN-SUFFIX, chat.com, PROXY
+DOMAIN-SUFFIX, sora.com, PROXY
+DOMAIN-SUFFIX, oaistatic.com, PROXY
+DOMAIN-SUFFIX, oaiusercontent.com, PROXY
+DOMAIN-SUFFIX, oaistatsig.com, PROXY
+DOMAIN-SUFFIX, openai.com.cdn.cloudflare.net, PROXY
+DOMAIN, openai-api.arkoselabs.com, PROXY
+DOMAIN-SUFFIX, chatgpt.livekit.cloud, PROXY
+DOMAIN-SUFFIX, host.livekit.cloud, PROXY
+DOMAIN-SUFFIX, turn.livekit.cloud, PROXY
+DOMAIN, lens.google.com, PROXY
+DOMAIN-SUFFIX, gemini.google.com, PROXY
+DOMAIN, gemini.gstatic.com, PROXY
+DOMAIN, generativelanguage.googleapis.com, PROXY
+DOMAIN, proactivebackend-pa.googleapis.com, PROXY
+DOMAIN, robinfrontend-pa.googleapis.com, PROXY
+DOMAIN, aistudio.google.com, PROXY
+DOMAIN, alkalimakersuite-pa.clients6.google.com, PROXY
+DOMAIN-SUFFIX, deepmind.google, PROXY
+DOMAIN-SUFFIX, anthropic.com, PROXY
+DOMAIN-SUFFIX, claude.ai, PROXY
+DOMAIN-SUFFIX, claude.com, PROXY
+DOMAIN-SUFFIX, claudeusercontent.com, PROXY

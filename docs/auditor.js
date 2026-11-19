@@ -183,9 +183,12 @@ export function generateClientConfig({
   if (client === "loon") {
     const lines = [
       `#!name = AppleFlow · Apple Intelligence (${p})`,
-      `#!desc = Zero-MitM Apple Intelligence & Mandarin Siri routing (${p})`,
+      lang === "en"
+        ? `#!desc = Zero-MitM Apple Intelligence & Mandarin Siri routing — after importing, bind the plugin's Policy selector in Loon to "${p}"`
+        : `#!desc = 零 MitM Apple 智能与中文 Siri 分流 — 导入插件后请在 Loon 插件详情页将策略绑定至「${p}」`,
       `#!homepage = ${APPLEFLOW_META.pagesUrl}`,
-      `#!system = ios, ipados, macos`,
+      `#!system = iOS, iPadOS, macOS`,
+      `#!date = 2026-11-19`,
       `#!version = ${APPLEFLOW_META.version}`,
       "",
       "[General]",
@@ -193,10 +196,17 @@ export function generateClientConfig({
       `real-ip = ${REAL_IP_LIST.join(", ")}`,
       "",
       "[Rule]",
+      lang === "en"
+        ? `# 1. Mandarin Siri & Call Screening MUST go DIRECT with Real IP`
+        : `# 1. 中文 Siri 与普通话「询问来电原因」必须真实 IP 直连`,
       ...activeDirectRules.map((r) =>
         r.type.startsWith("IP-") ? `${r.type}, ${r.value}, DIRECT, no-resolve` : `${r.type}, ${r.value}, DIRECT`
       ),
-      ...activeProxyRules.map((r) => `${r.type}, ${r.value}, ${p}`),
+      "",
+      lang === "en"
+        ? `# 2. Loon [Rule] requires PROXY here; select your US policy group ("${p}") on the plugin page in Loon`
+        : `# 2. Loon 插件规则固定使用标准 PROXY 占位，导入后在 Loon 插件页面选择你的美区策略组「${p}」即可生效`,
+      ...activeProxyRules.map((r) => `${r.type}, ${r.value}, PROXY`),
     ];
     return { filename: "AppleFlow-Custom.plugin", content: lines.join("\n") + "\n" };
   }

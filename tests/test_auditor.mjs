@@ -280,4 +280,52 @@ rules:
   }
 }
 
+// 11. Loon plugin strictly obeys Loon spec (no #!select, only DIRECT / REJECT* / PROXY in [Rule])
+{
+  const parseRulePolicies = (pluginText) => {
+    const lines = pluginText.split(/\r?\n/);
+    let inRule = false;
+    const policies = [];
+    for (const raw of lines) {
+      const line = raw.trim();
+      if (!line || line.startsWith("#")) continue;
+      const sec = line.match(/^\[([^\]]+)\]$/);
+      if (sec) {
+        inRule = sec[1].trim().toLowerCase() === "rule";
+        continue;
+      }
+      if (!inRule) continue;
+      const parts = line.split(",").map((s) => s.trim());
+      assert(parts.length >= 3, `Expected rule policy on Loon line: ${line}`);
+      policies.push(parts[2]);
+    }
+    return policies;
+  };
+
+  const pluginText = fs.readFileSync(path.join(rootDir, "modules/AppleFlow.plugin"), "utf8");
+  assert(!pluginText.includes("#!select"), "Loon plugin must not contain unsupported #!select directive");
+  assert(!pluginText.includes("美区AI策略组"), "Loon plugin must not hardcode custom policy group name");
+  const builtPolicies = parseRulePolicies(pluginText);
+  assert(builtPolicies.length > 0, "Expected non-empty Loon [Rule] rules");
+  for (const pol of builtPolicies) {
+    assert(
+      pol === "DIRECT" || pol === "PROXY" || pol.startsWith("REJECT"),
+      `Unsupported policy in modules/AppleFlow.plugin: ${pol}`
+    );
+  }
+
+  const gen = generateClientConfig({ client: "loon", policy: "🇺🇸 美国节点", includeExt: true, includeApns: true });
+  const genPolicies = parseRulePolicies(gen.content);
+  assert(genPolicies.length > 0, "Expected non-empty generated Loon [Rule] rules");
+  assert(!genPolicies.includes("🇺🇸 美国节点"), "Generated Loon [Rule] must use PROXY instead of custom group name");
+  for (const pol of genPolicies) {
+    assert(
+      pol === "DIRECT" || pol === "PROXY" || pol.startsWith("REJECT"),
+      `Unsupported policy in generated Loon plugin: ${pol}`
+    );
+  }
+  const res = auditConfig(gen.content);
+  assert.equal(res.score, 100, `Expected score 100 for generated Loon plugin, got ${res.score}: ${JSON.stringify(res.findings)}`);
+}
+
 console.log("PASS: All AppleFlow auditor, privacy scrubber & ruleset unit tests passed.");

@@ -38,7 +38,7 @@
 | :--- | :--- | :--- |
 | **Surge 5 / 6（全套推荐）** | `https://raw.githubusercontent.com/Kianuni/AppleFlow/main/modules/AppleFlow-Full.sgmodule` | 支持模块参数 `Policy` 自定义美区策略组名（默认 `PROXY`） |
 | **Surge 5 / 6（核心精简版）** | `https://raw.githubusercontent.com/Kianuni/AppleFlow/main/modules/AppleFlow.sgmodule` | 仅含 Siri 直连 + Apple 原生 PCC，适合自维护 OpenAI/Google 规则的用户 |
-| **Loon** | `https://raw.githubusercontent.com/Kianuni/AppleFlow/main/modules/AppleFlow.plugin` | 内置插件策略组下拉选择 |
+| **Loon** | `https://raw.githubusercontent.com/Kianuni/AppleFlow/main/modules/AppleFlow.plugin` | 规则使用标准 `PROXY`，导入后在插件配置页选择美区策略组 |
 | **Shadowrocket (小火箭)** | `https://raw.githubusercontent.com/Kianuni/AppleFlow/main/modules/AppleFlow.module` | 默认指向 `PROXY` |
 | **Stash** | `https://raw.githubusercontent.com/Kianuni/AppleFlow/main/modules/AppleFlow.stoverride` | 自动注入 `fake-ip-filter` 与置顶规则 |
 | **Mihomo / Clash Meta** | [`modules/AppleFlow-Mihomo.yaml`](modules/AppleFlow-Mihomo.yaml) | 含 `fake-ip-filter` 与 `rule-providers` 覆写模板 |

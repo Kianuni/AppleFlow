@@ -7,7 +7,7 @@ import {
   getStandaloneRulesetUrl,
   renderStandaloneRulesetContent,
   scrubConfigSecrets,
-} from "./auditor.js?v=1.0.4";
+} from "./auditor.js?v=1.0.5";
 
 const state = {
   lang: "zh",
@@ -274,8 +274,8 @@ const CLIENT_MODULES = {
       nameEn: "AppleFlow · Loon Plugin",
       badgeZh: "内置图形化策略选择",
       badgeEn: "Built-in Policy Picker",
-      descZh: "包含中文 Siri 直连护栏 (`real-ip`) + Apple PCC 隐私云计算 + ChatGPT / 视觉识图。导入后可在插件详情页下拉选择你的美区策略组。",
-      descEn: "Includes Siri real-ip direct guardrail + Apple PCC + AI extensions with Loon's native policy selector.",
+      descZh: "包含中文 Siri 直连护栏 (`real-ip`) + Apple PCC 隐私云计算 + ChatGPT / 视觉识图。规则使用标准 `PROXY`，导入后请在 Loon 插件配置页选择你的低延迟美区策略组。",
+      descEn: "Includes Siri real-ip direct guardrail + Apple PCC + AI extensions using Loon's standard `PROXY` rule policy — bind your US policy group inside the plugin's settings page after importing.",
       file: "AppleFlow.plugin",
       uriPrefix: "loon://import?plugin=",
       installZh: "一键导入 Loon",
