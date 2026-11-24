@@ -10,7 +10,8 @@
   <a href="README.md">简体中文</a> ·
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="https://github.com/Kianuni/Erosion-CN">Erosion-CN</a> ·
-  <a href="https://github.com/Kianuni/AppleLens">AppleLens</a>
+  <a href="https://github.com/Kianuni/AppleLens">AppleLens</a> ·
+  <a href="https://kianuni.github.io/Lokey-Audit/">Lokey Offline Keyboard</a>
 </p>
 
 ---
@@ -46,6 +47,8 @@
 ```text
   [1. Erosion-CN] Device Enablement ──▶ [2. AppleFlow] Zero-MitM Routing ──▶ [3. AppleLens] macOS Radar · Probe · Report Lens
 ```
+
+> ⌨️ **Companion Daily-Driver Tool**: Already running an iOS 26/27 setup? Check out **[Lokey · 落键](https://kianuni.github.io/Lokey-Audit/)** — a 1:1 native-feel (zero learning curve), physically zero-network Chinese Pinyin & Shuangpin keyboard ([Auditable Source](https://github.com/Kianuni/Lokey-Audit) · [553k Rime-Frost Pack](https://github.com/Kianuni/lokey-frost-pack)).
 
 ---
 
