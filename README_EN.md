@@ -48,7 +48,7 @@
   [1. Erosion-CN] Device Enablement ──▶ [2. AppleFlow] Zero-MitM Routing ──▶ [3. AppleLens] macOS Radar · Probe · Report Lens
 ```
 
-> ⌨️ **Companion Daily-Driver Tool**: Already running an iOS 26/27 setup? Check out **[Lokey](https://kianuni.github.io/Lokey-Audit/)** — a pure-offline, physically zero-network iOS 26-key Full Pinyin & Shuangpin Chinese keyboard with 1:1 native ergonomics (zero learning curve), powered by the Inkstone engine (adaptive 26-key heatmap calibration, bidirectional neural sentence semantics, inline CN-EN mixed input, word-level OpenCC conversion, and local user-phrase memory) with zero networking frameworks or data collection ([Audit Repo](https://github.com/Kianuni/Lokey-Audit) · [553k Frost Pack](https://github.com/Kianuni/lokey-frost-pack)).
+> ⌨️ **Everyday Offline Input**: Prefer native iOS restraint without the thin built-in Pinyin dictionary? Try **[Lokey](https://kianuni.github.io/Lokey-Audit/)** — 1:1 native iOS 26 feel paired with on-device Xiaohe/Ziranma Shuangpin, adaptive thumb typo calibration, and zero-copy [553k Frost Pack](https://github.com/Kianuni/lokey-frost-pack) mounting, physically zero-network ([TestFlight](https://testflight.apple.com/join/Bx9gxXTN) · [Audit Repo](https://github.com/Kianuni/Lokey-Audit)).
 
 ---
 

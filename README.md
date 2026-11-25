@@ -11,7 +11,7 @@
   <a href="CHANGELOG.md">更新日志</a> ·
   <a href="https://github.com/Kianuni/Erosion-CN">Erosion-CN (国行解锁配套工具)</a> ·
   <a href="https://github.com/Kianuni/AppleLens">AppleLens (macOS 观测与排障台)</a> ·
-  <a href="https://kianuni.github.io/Lokey-Audit/">Lokey (纯离线物理零联网全拼/双拼输入法)</a>
+  <a href="https://kianuni.github.io/Lokey-Audit/">Lokey (零联网全拼/双拼输入法)</a>
 </p>
 
 ---
@@ -99,7 +99,7 @@
   [1. Erosion-CN] 设备端底层准入 ──▶ [2. AppleFlow] 零 MitM 精准分流 ──▶ [3. AppleLens] macOS 观测 · 探针 · 报告解读
 ```
 
-> ⌨️ **延伸日常体验**：已备好外区环境与 iOS 26/27？欢迎了解同作者出品的 **[Lokey](https://kianuni.github.io/Lokey-Audit/)** —— 一款 1:1 原生手感（零学习适应成本）、纯离线物理级零联网的 iOS 26 键全拼与双拼中文输入法。内置自研「落墨 · Inkstone」输入引擎（26 键盲打热区自适应校准、双向神经网络长句语义、句内中英混输、OpenCC 词级简繁与本地自造词记忆），源码与二进制均不含任何网络框架或数据采集（[零联网源码审计仓](https://github.com/Kianuni/Lokey-Audit) · [55.3 万词白霜 `.lokeypack`](https://github.com/Kianuni/lokey-frost-pack)）。
+> ⌨️ **延伸日常输入**：偏爱原生系统的克制，又嫌自带拼音词库单薄？试试同作者的 **[Lokey](https://kianuni.github.io/Lokey-Audit/)** —— 1:1 复刻 iOS 26 液态玻璃手感，端侧集成小鹤/自然码双拼、拇指热区纠错与只读 `mmap` [55.3 万词白霜词库](https://github.com/Kianuni/lokey-frost-pack)，物理级零联网（[TestFlight 体验](https://testflight.apple.com/join/Bx9gxXTN) · [源码审计](https://github.com/Kianuni/Lokey-Audit)）。
 
 ---
 
